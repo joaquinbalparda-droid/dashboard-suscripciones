@@ -151,7 +151,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
   <div class="chart-row">
     <div class="chart-box full">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-        <h3 style="margin:0">TPV Incremental vs M-1 — promedio por mes de vida</h3>
+        <h3 style="margin:0">TPV Incremental vs M-1 — total ARS por mes de vida</h3>
         <div class="filter-row">
           <label>Cohort:</label>
           <select id="selCohort" onchange="updateCurva()"><option value="all">Todos</option></select>
@@ -423,32 +423,40 @@ new Chart(document.getElementById('chartActivosCancelados'), {
   });
 })();
 
+function fmtBig(n) {
+  if (n === null) return '—';
+  const abs = Math.abs(n);
+  if (abs >= 1e9) return (n/1e9).toFixed(1)+'B';
+  return (n/1e6).toFixed(0)+'M';
+}
+
 function computeCurva(cohortFilter, planFilter) {
-  // Build groups: {cohort|plan → {mes → tpv}}
+  // Build groups: {cohort|plan → {mes → {v, n}}}
   const groups = {};
   COHORT_DATA.forEach(d => {
     if (cohortFilter !== 'all' && d.c !== cohortFilter) return;
     if (planFilter !== 'all' && d.p !== planFilter) return;
     const key = d.c + '|' + d.p;
     if (!groups[key]) groups[key] = {};
-    groups[key][d.m] = d.v;
+    groups[key][d.m] = { v: d.v, n: d.n };
   });
   const months = ['M-1','M0','M1','M2','M3','M4','M5','M6'];
-  const incrSums = {}, incrCounts = {};
-  months.forEach(m => { incrSums[m] = 0; incrCounts[m] = 0; });
-  let baseSum = 0, baseCnt = 0;
+  const incrSums = new Array(8).fill(0);
+  const hasMon = new Array(8).fill(false);
+  let baseTpv = 0;
   Object.values(groups).forEach(g => {
     const base = g['M-1'];
-    if (!base || base <= 0) return;
-    baseSum += base; baseCnt++;
-    months.forEach(m => {
-      if (m === 'M-1') { incrSums[m] += 0; incrCounts[m]++; }
-      else if (g[m] && g[m] > 0) { incrSums[m] += g[m] - base; incrCounts[m]++; }
+    if (!base || base.v <= 0) return;
+    const baseTot = base.v * base.n;
+    baseTpv += baseTot;
+    months.forEach((m, i) => {
+      if (m === 'M-1') { incrSums[i] += 0; hasMon[i] = true; }
+      else if (g[m] && g[m].v > 0) { incrSums[i] += g[m].v * g[m].n - baseTot; hasMon[i] = true; }
     });
   });
   return {
-    values: months.map(m => incrCounts[m] > 0 ? Math.round(incrSums[m] / incrCounts[m]) : null),
-    base: baseCnt > 0 ? Math.round(baseSum / baseCnt) : 0,
+    values: months.map((m, i) => hasMon[i] ? Math.round(incrSums[i]) : null),
+    base: Math.round(baseTpv),
     groups: Object.keys(groups).length
   };
 }
@@ -474,15 +482,15 @@ const curvaChart = new Chart(document.getElementById('chartCurva'), {
           label: ctx => {
             const v = ctx.raw;
             if (v === null) return ' sin datos';
-            if (ctx.dataIndex === 0) return ` TPV base: $${fmt(Math.abs(v))} ARS`;
-            return ` ${v >= 0 ? '+' : ''}$${fmt(v)} ARS vs M-1`;
+            if (ctx.dataIndex === 0) return ` TPV base M-1: $${fmtBig(Math.abs(v))} ARS total`;
+            return ` ${v >= 0 ? '+' : ''}$${fmtBig(v)} ARS vs M-1`;
           }
         }
       }
     },
     scales: {
       x: { grid: { display: false } },
-      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => (v >= 0 ? '+' : '') + '$'+(v/1000).toFixed(0)+'K' } }
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => (v >= 0 ? '+' : '')+'$'+fmtBig(v) } }
     }
   },
   plugins: [{
@@ -493,8 +501,8 @@ const curvaChart = new Chart(document.getElementById('chartCurva'), {
         const v = data.datasets[0].data[i];
         if (v === null) return;
         let txt;
-        if (i === 0) { txt = '$'+(Math.abs(v)/1000000).toFixed(1)+'M base'; }
-        else { txt = (v>=0?'+':'') + '$'+(v/1000).toFixed(0)+'K'; }
+        if (i === 0) { txt = '$'+fmtBig(Math.abs(v))+' base'; }
+        else { txt = (v>=0?'+':'')+'$'+fmtBig(v); }
         ctx.save();
         ctx.fillStyle = '#555'; ctx.font = '9px Arial'; ctx.textAlign = 'center';
         ctx.fillText(txt, bar.x, bar.y - 5);
@@ -505,7 +513,7 @@ const curvaChart = new Chart(document.getElementById('chartCurva'), {
 });
 
 document.getElementById('curvaBaseLabel').textContent =
-  `TPV base (M-1): $${fmt(curvaInit.base)} ARS promedio · ${curvaInit.groups} combinaciones cohort×plan`;
+  `TPV base (M-1): $${fmtBig(curvaInit.base)} ARS total · ${curvaInit.groups} combinaciones cohort×plan`;
 
 function updateCurva() {
   const cf = document.getElementById('selCohort').value;
@@ -516,7 +524,7 @@ function updateCurva() {
   ds.backgroundColor = result.values.map((v,i) => i===0 ? '#e0e0e0' : (v !== null && v < 0 ? '#ef9a9a' : '#FFD200'));
   curvaChart.update();
   document.getElementById('curvaBaseLabel').textContent =
-    `TPV base (M-1): $${fmt(result.base)} ARS promedio · ${result.groups} combinaciones cohort×plan`;
+    `TPV base (M-1): $${fmtBig(result.base)} ARS total · ${result.groups} combinaciones cohort×plan`;
 }
 
 new Chart(document.getElementById('chartPotenciados'), {
