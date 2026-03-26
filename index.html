@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Suscripciones</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f0f0f0; }
+
+/* HEADER */
+.top-bar { background: #FFD200; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+.top-bar h1 { font-size: 17px; font-weight: 700; color: #1a1a1a; }
+.top-bar .fecha { font-size: 12px; color: #444; }
+
+/* TABS */
+.tabs { background: #1a1a1a; display: flex; }
+.tab { padding: 12px 28px; color: #aaa; font-size: 13px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+.tab:hover { color: #fff; }
+.tab.active { color: #FFD200; border-bottom: 3px solid #FFD200; }
+
+/* PAGE */
+.page { display: none; padding: 24px 32px; }
+.page.active { display: block; }
+
+/* KPI ROW */
+.kpi-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.kpi { background: white; border-radius: 8px; padding: 16px 20px; flex: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-top: 3px solid #FFD200; }
+.kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.kpi .value { font-size: 26px; font-weight: 700; color: #1a1a1a; }
+.kpi .sub { font-size: 11px; color: #aaa; margin-top: 3px; }
+.kpi .up { color: #2e7d32; font-size: 12px; }
+.kpi .down { color: #c62828; font-size: 12px; }
+
+/* CHART ROW */
+.chart-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.chart-box { background: white; border-radius: 8px; padding: 20px; flex: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.chart-box.full { flex: 2; }
+.chart-box h3 { font-size: 13px; color: #555; margin-bottom: 16px; font-weight: 600; }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th { background: #FFD200; color: #1a1a1a; padding: 8px 12px; text-align: right; font-weight: 700; }
+.tbl th:first-child { text-align: left; }
+.tbl td { padding: 7px 12px; text-align: right; border-bottom: 1px solid #f0f0f0; color: #333; }
+.tbl td:first-child { text-align: left; font-weight: 600; }
+.tbl tr:hover td { background: #fffde7; }
+
+/* BADGE */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+.badge.green { background: #e8f5e9; color: #2e7d32; }
+.badge.yellow { background: #fff9c4; color: #f57f17; }
+.badge.red { background: #ffebee; color: #c62828; }
+
+/* PLACEHOLDER */
+.placeholder { background: white; border-radius: 8px; padding: 48px; text-align: center; color: #aaa; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.placeholder .icon { font-size: 40px; margin-bottom: 12px; }
+.placeholder p { font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>Suscripciones — Dashboard de Resultados</h1>
+  <span class="fecha">Actualizado: Marzo 2026</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPage(0)">📊 Resumen del Mes</div>
+  <div class="tab" onclick="showPage(1)">📈 Impacto por Cohort</div>
+  <div class="tab" onclick="showPage(2)">📡 Canales</div>
+</div>
+
+<!-- PAGE 1: RESUMEN -->
+<div class="page active" id="page0">
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Suscriptos Activos</div>
+      <div class="value">1.061</div>
+      <div class="sub"><span class="up">▲ +58 vs feb</span></div>
+    </div>
+    <div class="kpi">
+      <div class="label">Nuevos en Mar-26</div>
+      <div class="value">1.089</div>
+      <div class="sub">conversiones del mes</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Cancelados Mar-26</div>
+      <div class="value">26</div>
+      <div class="sub"><span class="down">Churn: 2.4%</span></div>
+    </div>
+    <div class="kpi">
+      <div class="label">Revenue Plan (Mar)</div>
+      <div class="value">$9.4M</div>
+      <div class="sub">ARS — activos</div>
+    </div>
+    <div class="kpi">
+      <div class="label">% Potenciados M0</div>
+      <div class="value">2.8%</div>
+      <div class="sub">31 de 1.089 sellers</div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-box full">
+      <h3>Nuevas suscripciones por mes</h3>
+      <canvas id="chartEvolucion" height="120"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Mix de planes — Mar 2026</h3>
+      <canvas id="chartDonut" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <h3>Activos vs Cancelados — últimos 3 meses</h3>
+    <canvas id="chartActivosCancelados" height="80"></canvas>
+  </div>
+</div>
+
+<!-- PAGE 2: IMPACTO -->
+<div class="page" id="page1">
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">TPV Incr. M0 Prom (2025)</div>
+      <div class="value">+$504K</div>
+      <div class="sub">ARS vs M-1 · promedio histórico</div>
+    </div>
+    <div class="kpi">
+      <div class="label">TPV Incr. M1 Prom (2025)</div>
+      <div class="value">+$668K</div>
+      <div class="sub">ARS vs M-1 · promedio histórico</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Uplift M0 vs M-1</div>
+      <div class="value">+61%</div>
+      <div class="sub">promedio todos los cohorts</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Uplift M1 vs M-1</div>
+      <div class="value">+81%</div>
+      <div class="sub">promedio todos los cohorts</div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-box full">
+      <h3>Curva de impacto TPV — promedio por mes de vida (todos los cohorts)</h3>
+      <canvas id="chartCurva" height="120"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>% Potenciados M0 por cohort</h3>
+      <canvas id="chartPotenciados" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <h3>Resultados por cohort — 2025/2026</h3>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Cohort</th>
+          <th>Sellers</th>
+          <th>Potenc. M0</th>
+          <th>% Pot M0</th>
+          <th>TPV Incr M0</th>
+          <th>TPV Incr M1</th>
+          <th>VC Incr M0</th>
+          <th>VC Incr M1</th>
+        </tr>
+      </thead>
+      <tbody id="tablaCohorts"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE 3: CANALES -->
+<div class="page" id="page2">
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Audiencia Total</div>
+      <div class="value">405.947</div>
+      <div class="sub">sellers elegibles Mar-26</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Reach Único</div>
+      <div class="value">366.941</div>
+      <div class="sub"><span class="up">90.4% de audiencia</span></div>
+    </div>
+    <div class="kpi">
+      <div class="label">Open Único</div>
+      <div class="value">186.144</div>
+      <div class="sub"><span class="up">45.9% de audiencia</span></div>
+    </div>
+    <div class="kpi">
+      <div class="label">Open / Reach</div>
+      <div class="value">50.7%</div>
+      <div class="sub">de los alcanzados, abrieron</div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-box full">
+      <h3>Reach y Open por canal — Mar 2026 (acumulado al 25/mar)</h3>
+      <canvas id="chartCanales" height="110"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Reach por plan</h3>
+      <canvas id="chartReachPlan" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <h3>Detalle por plan — Mar 2026</h3>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Audiencia</th>
+          <th>Reach Push</th>
+          <th>Open Push</th>
+          <th>Reach Modal</th>
+          <th>Tap Modal</th>
+          <th>Reach WSPP</th>
+          <th>Open WSPP</th>
+          <th>Reach Total</th>
+          <th>Reach %</th>
+          <th>Open %</th>
+        </tr>
+      </thead>
+      <tbody id="tablaCanales"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ---- UTILS ----
+function fmt(n) { return Math.round(n).toLocaleString('es-AR'); }
+function fmtM(n) { return '$' + (n/1000000).toFixed(1) + 'M'; }
+function fmtPct(n) { return (n*100).toFixed(1) + '%'; }
+
+// ---- DATOS ----
+const MESES = ['May-25','Jun-25','Jul-25','Ago-25','Sep-25','Oct-25','Nov-25','Dic-25','Ene-26','Feb-26','Mar-26'];
+const NUEVOS = [383, 1193, 1435, 1528, 1174, 1713, 884, 1038, 1699, 1161, 1203, 1089];
+// (desde 202504)
+const MESES_CONV = ['Abr-25','May-25','Jun-25','Jul-25','Ago-25','Sep-25','Oct-25','Nov-25','Dic-25','Ene-26','Feb-26','Mar-26'];
+
+const PLAN_LABELS = ['LOLO DTO','LOLO','MILO DTO','MILO','HILO','HILO TOP'];
+const PLAN_ACTIVOS_MAR = [659, 128, 80, 118, 55, 24];
+const PLAN_COLORS = ['#FFD200','#FFC107','#FFB300','#FF8F00','#FF6F00','#E65100'];
+
+const TPV_CURVA = [825217, 1329217, 1493291, 1411011, 1271582, 1045282, 900373, 801798];
+const TPV_LABELS = ['M-1','M0','M1','M2','M3','M4','M5','M6'];
+
+const COHORTS = [
+  {mes:'202510', sellers:884,  pot:86,  pctPot:0.097, tpvM0:671,  tpvM1:1016, vcM0:15.6, vcM1:11.1},
+  {mes:'202511', sellers:1038, pot:87,  pctPot:0.084, tpvM0:586,  tpvM1:1530, vcM0:16.4, vcM1:33.4},
+  {mes:'202512', sellers:1699, pot:166, pctPot:0.098, tpvM0:1431, tpvM1:1476, vcM0:23.5, vcM1:8.5},
+  {mes:'202601', sellers:1161, pot:51,  pctPot:0.044, tpvM0:338,  tpvM1:281,  vcM0:0.7,  vcM1:-6.9},
+  {mes:'202602', sellers:1203, pot:52,  pctPot:0.043, tpvM0:286,  tpvM1:135,  vcM0:-0.8, vcM1:5.8},
+  {mes:'202603', sellers:1089, pot:31,  pctPot:0.028, tpvM0:148,  tpvM1:null, vcM0:20.0, vcM1:null},
+];
+
+// ---- PAGE 1 CHARTS ----
+new Chart(document.getElementById('chartEvolucion'), {
+  type: 'bar',
+  data: {
+    labels: MESES_CONV,
+    datasets: [{
+      label: 'Nuevas suscripciones',
+      data: NUEVOS,
+      backgroundColor: '#FFD200',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: '#f5f5f5' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: PLAN_LABELS,
+    datasets: [{ data: PLAN_ACTIVOS_MAR, backgroundColor: PLAN_COLORS, borderWidth: 2 }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} sellers` } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartActivosCancelados'), {
+  type: 'bar',
+  data: {
+    labels: ['Ene-26', 'Feb-26', 'Mar-26'],
+    datasets: [
+      { label: 'Activos', data: [875, 1016, 1061], backgroundColor: '#FFD200', borderRadius: 4, stack: 's' },
+      { label: 'Cancelados', data: [148, 95, 26], backgroundColor: '#f0f0f0', borderRadius: 4, stack: 's' }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'right' } },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: { stacked: true, grid: { color: '#f5f5f5' } }
+    }
+  }
+});
+
+// ---- PAGE 2 CHARTS ----
+new Chart(document.getElementById('chartCurva'), {
+  type: 'bar',
+  data: {
+    labels: TPV_LABELS,
+    datasets: [{
+      label: 'TPV Promedio ARS',
+      data: TPV_CURVA,
+      backgroundColor: TPV_CURVA.map((v,i) => i === 0 ? '#e0e0e0' : '#FFD200'),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` $${fmt(ctx.raw)} ARS` } }
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
+    }
+  },
+  plugins: [{
+    id: 'labels',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      chart.getDatasetMeta(0).data.forEach((bar, i) => {
+        const incr = i === 0 ? '' : ' (+' + Math.round((TPV_CURVA[i]-TPV_CURVA[0])/TPV_CURVA[0]*100) + '%)';
+        ctx.save();
+        ctx.fillStyle = '#555';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('$'+(TPV_CURVA[i]/1000).toFixed(0)+'K'+incr, bar.x, bar.y - 6);
+        ctx.restore();
+      });
+    }
+  }]
+});
+
+new Chart(document.getElementById('chartPotenciados'), {
+  type: 'bar',
+  data: {
+    labels: COHORTS.map(c => c.mes.slice(0,4)+'/'+c.mes.slice(4)),
+    datasets: [{
+      label: '% Potenciados M0',
+      data: COHORTS.map(c => +(c.pctPot*100).toFixed(1)),
+      backgroundColor: '#FFD200',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// ---- TABLA COHORTS ----
+const tbody = document.getElementById('tablaCohorts');
+COHORTS.forEach(c => {
+  const pct = (c.pctPot*100).toFixed(1);
+  const badge = c.pctPot >= 0.08 ? 'green' : c.pctPot >= 0.05 ? 'yellow' : 'red';
+  tbody.innerHTML += `<tr>
+    <td>${c.mes.slice(0,4)}/${c.mes.slice(4)}</td>
+    <td>${fmt(c.sellers)}</td>
+    <td>${fmt(c.pot)}</td>
+    <td><span class="badge ${badge}">${pct}%</span></td>
+    <td>${fmtM(c.tpvM0*1e6)}</td>
+    <td>${c.tpvM1 ? fmtM(c.tpvM1*1e6) : '—'}</td>
+    <td>${c.vcM0 >= 0 ? '+' : ''}${c.vcM0.toFixed(1)}M</td>
+    <td>${c.vcM1 !== null ? (c.vcM1 >= 0 ? '+' : '')+c.vcM1.toFixed(1)+'M' : '—'}</td>
+  </tr>`;
+});
+
+// ---- PAGE 3: CANALES ----
+const CANALES_DATA = [
+  {plan:'LOLO DTO', aud:134689, rPush:57356, oPush:1272, rModal:109356, tModal:11967, rWspp:74866, oWspp:54790, rTotal:120981, oTotal:61826},
+  {plan:'LOLO',     aud:33835,  rPush:17471, oPush:663,  rModal:27790,  tModal:2743,  rWspp:18658, oWspp:13499, rTotal:30700,  oTotal:15274},
+  {plan:'MILO DTO', aud:34543,  rPush:17535, oPush:773,  rModal:28283,  tModal:2992,  rWspp:19098, oWspp:13853, rTotal:31266,  oTotal:15859},
+  {plan:'MILO',     aud:64582,  rPush:38742, oPush:1913, rModal:53153,  tModal:6521,  rWspp:35319, oWspp:25452, rTotal:58718,  oTotal:29968},
+  {plan:'HILO',     aud:75235,  rPush:44959, oPush:2238, rModal:61244,  tModal:7546,  rWspp:40672, oWspp:29302, rTotal:67796,  oTotal:34522},
+  {plan:'HILO TOP', aud:63063,  rPush:36701, oPush:1861, rModal:51709,  tModal:5191,  rWspp:34646, oWspp:24847, rTotal:57480,  oTotal:28695},
+];
+
+new Chart(document.getElementById('chartCanales'), {
+  type: 'bar',
+  data: {
+    labels: ['Push', 'Modal/Shortcut', 'WhatsApp'],
+    datasets: [
+      { label: 'Reach', data: [212764, 331535, 223259], backgroundColor: '#FFD200', borderRadius: 4 },
+      { label: 'Open/Tap', data: [8720, 36960, 161743], backgroundColor: '#1a1a1a', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => (v/1000).toFixed(0)+'K' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartReachPlan'), {
+  type: 'doughnut',
+  data: {
+    labels: CANALES_DATA.map(d => d.plan),
+    datasets: [{ data: CANALES_DATA.map(d => d.rTotal), backgroundColor: PLAN_COLORS, borderWidth: 2 }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${fmt(ctx.raw)}` } }
+    }
+  }
+});
+
+const tblaC = document.getElementById('tablaCanales');
+CANALES_DATA.forEach(d => {
+  const rPct = (d.rTotal/d.aud*100).toFixed(1);
+  const oPct = (d.oTotal/d.aud*100).toFixed(1);
+  tblaC.innerHTML += `<tr>
+    <td>${d.plan}</td>
+    <td>${fmt(d.aud)}</td>
+    <td>${fmt(d.rPush)}</td>
+    <td>${fmt(d.oPush)}</td>
+    <td>${fmt(d.rModal)}</td>
+    <td>${fmt(d.tModal)}</td>
+    <td>${fmt(d.rWspp)}</td>
+    <td>${fmt(d.oWspp)}</td>
+    <td><strong>${fmt(d.rTotal)}</strong></td>
+    <td><span class="badge green">${rPct}%</span></td>
+    <td><span class="badge yellow">${oPct}%</span></td>
+  </tr>`;
+});
+
+// ---- TABS ----
+function showPage(i) {
+  document.querySelectorAll('.page').forEach((p,j) => p.classList.toggle('active', i===j));
+  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', i===j));
+}
+</script>
+</body>
+</html>
