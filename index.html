@@ -62,7 +62,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 
 <div class="top-bar">
   <h1>Suscripciones — Dashboard de Resultados</h1>
-  <span class="fecha">Actualizado: Marzo 2026</span>
+  <span class="fecha">Actualizado: 26/03/2026</span>
 </div>
 
 <div class="tabs">
@@ -76,28 +76,28 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
   <div class="kpi-row">
     <div class="kpi">
       <div class="label">Suscriptos Activos</div>
-      <div class="value">1.061</div>
-      <div class="sub"><span class="up">▲ +58 vs feb</span></div>
+      <div class="value">1.082</div>
+      <div class="sub"><span class="up">▲ +66 vs feb</span></div>
     </div>
     <div class="kpi">
       <div class="label">Nuevos en Mar-26</div>
-      <div class="value">1.089</div>
+      <div class="value">1.109</div>
       <div class="sub">conversiones del mes</div>
     </div>
     <div class="kpi">
       <div class="label">Cancelados Mar-26</div>
       <div class="value">26</div>
-      <div class="sub"><span class="down">Churn: 2.4%</span></div>
+      <div class="sub"><span class="down">Churn: 2.3%</span></div>
     </div>
     <div class="kpi">
       <div class="label">Revenue Plan (Mar)</div>
-      <div class="value">$9.4M</div>
+      <div class="value">$9.6M</div>
       <div class="sub">ARS — activos</div>
     </div>
     <div class="kpi">
       <div class="label">% Potenciados M0</div>
-      <div class="value">2.8%</div>
-      <div class="sub">31 de 1.089 sellers</div>
+      <div class="value">3.1%</div>
+      <div class="sub">34 de 1.109 sellers</div>
     </div>
   </div>
 
@@ -241,12 +241,12 @@ function fmtPct(n) { return (n*100).toFixed(1) + '%'; }
 
 // ---- DATOS ----
 const MESES = ['May-25','Jun-25','Jul-25','Ago-25','Sep-25','Oct-25','Nov-25','Dic-25','Ene-26','Feb-26','Mar-26'];
-const NUEVOS = [383, 1193, 1435, 1528, 1174, 1713, 884, 1038, 1699, 1161, 1203, 1089];
+const NUEVOS = [383, 1193, 1435, 1528, 1174, 1713, 884, 1038, 1699, 1161, 1203, 1109];
 // (desde 202504)
 const MESES_CONV = ['Abr-25','May-25','Jun-25','Jul-25','Ago-25','Sep-25','Oct-25','Nov-25','Dic-25','Ene-26','Feb-26','Mar-26'];
 
 const PLAN_LABELS = ['LOLO DTO','LOLO','MILO DTO','MILO','HILO','HILO TOP'];
-const PLAN_ACTIVOS_MAR = [659, 128, 80, 118, 55, 24];
+const PLAN_ACTIVOS_MAR = [671, 128, 80, 121, 58, 24];
 const PLAN_COLORS = ['#FFD200','#FFC107','#FFB300','#FF8F00','#FF6F00','#E65100'];
 
 const TPV_CURVA = [825217, 1329217, 1493291, 1411011, 1271582, 1045282, 900373, 801798];
@@ -257,8 +257,8 @@ const COHORTS = [
   {mes:'202511', sellers:1038, pot:87,  pctPot:0.084, tpvM0:586,  tpvM1:1530, vcM0:16.4, vcM1:33.4},
   {mes:'202512', sellers:1699, pot:166, pctPot:0.098, tpvM0:1431, tpvM1:1476, vcM0:23.5, vcM1:8.5},
   {mes:'202601', sellers:1161, pot:51,  pctPot:0.044, tpvM0:338,  tpvM1:281,  vcM0:0.7,  vcM1:-6.9},
-  {mes:'202602', sellers:1203, pot:52,  pctPot:0.043, tpvM0:286,  tpvM1:135,  vcM0:-0.8, vcM1:5.8},
-  {mes:'202603', sellers:1089, pot:31,  pctPot:0.028, tpvM0:148,  tpvM1:null, vcM0:20.0, vcM1:null},
+  {mes:'202602', sellers:1203, pot:52,  pctPot:0.043, tpvM0:286,  tpvM1:164,  vcM0:-0.8, vcM1:6.5},
+  {mes:'202603', sellers:1109, pot:34,  pctPot:0.031, tpvM0:178,  tpvM1:null, vcM0:20.7, vcM1:null},
 ];
 
 // ---- PAGE 1 CHARTS ----
