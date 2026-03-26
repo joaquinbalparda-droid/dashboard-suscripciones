@@ -56,6 +56,11 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 .placeholder { background: white; border-radius: 8px; padding: 48px; text-align: center; color: #aaa; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 .placeholder .icon { font-size: 40px; margin-bottom: 12px; }
 .placeholder p { font-size: 13px; }
+
+/* FILTERS */
+.filter-row { display: flex; align-items: center; gap: 10px; }
+.filter-row label { font-size: 11px; color: #666; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+.filter-row select { font-size: 12px; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer; color: #333; }
 </style>
 </head>
 <body>
@@ -145,7 +150,16 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 
   <div class="chart-row">
     <div class="chart-box full">
-      <h3>Curva de impacto TPV — promedio por mes de vida (todos los cohorts)</h3>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <h3 style="margin:0">TPV Incremental vs M-1 — promedio por mes de vida</h3>
+        <div class="filter-row">
+          <label>Cohort:</label>
+          <select id="selCohort" onchange="updateCurva()"><option value="all">Todos</option></select>
+          <label>Plan:</label>
+          <select id="selPlan" onchange="updateCurva()"><option value="all">Todos</option></select>
+        </div>
+      </div>
+      <div id="curvaBaseLabel" style="font-size:11px;color:#888;margin-bottom:6px;"></div>
       <canvas id="chartCurva" height="120"></canvas>
     </div>
     <div class="chart-box">
@@ -249,8 +263,78 @@ const PLAN_LABELS = ['LOLO DTO','LOLO','MILO DTO','MILO','HILO','HILO TOP'];
 const PLAN_ACTIVOS_MAR = [671, 128, 80, 121, 58, 24];
 const PLAN_COLORS = ['#FFD200','#FFC107','#FFB300','#FF8F00','#FF6F00','#E65100'];
 
-const TPV_CURVA = [825217, 1329217, 1493291, 1411011, 1271582, 1045282, 900373, 801798];
 const TPV_LABELS = ['M-1','M0','M1','M2','M3','M4','M5','M6'];
+
+// ---- COHORT DATA (BQ: VW_SUSC_COHORT_LONG, desde 202504) ----
+const COHORT_DATA = [
+// 202504
+{c:'202504',p:'HILO1',m:'M-1',v:1846845,n:113},{c:'202504',p:'HILO1',m:'M0',v:2414059,n:113},{c:'202504',p:'HILO1',m:'M1',v:2725834,n:113},{c:'202504',p:'HILO1',m:'M2',v:2437785,n:113},{c:'202504',p:'HILO1',m:'M3',v:2601517,n:113},{c:'202504',p:'HILO1',m:'M4',v:2370967,n:113},{c:'202504',p:'HILO1',m:'M5',v:1910592,n:113},{c:'202504',p:'HILO1',m:'M6',v:2265714,n:113},
+{c:'202504',p:'LOLO',m:'M-1',v:133228,n:128},{c:'202504',p:'LOLO',m:'M0',v:727232,n:128},{c:'202504',p:'LOLO',m:'M1',v:948185,n:128},{c:'202504',p:'LOLO',m:'M2',v:728278,n:128},{c:'202504',p:'LOLO',m:'M3',v:681015,n:128},{c:'202504',p:'LOLO',m:'M4',v:642844,n:128},{c:'202504',p:'LOLO',m:'M5',v:472031,n:128},{c:'202504',p:'LOLO',m:'M6',v:446275,n:128},
+{c:'202504',p:'MILO',m:'M-1',v:632296,n:142},{c:'202504',p:'MILO',m:'M0',v:1213315,n:142},{c:'202504',p:'MILO',m:'M1',v:1370320,n:142},{c:'202504',p:'MILO',m:'M2',v:1150475,n:142},{c:'202504',p:'MILO',m:'M3',v:1146659,n:142},{c:'202504',p:'MILO',m:'M4',v:898356,n:142},{c:'202504',p:'MILO',m:'M5',v:941110,n:142},{c:'202504',p:'MILO',m:'M6',v:1131599,n:142},
+// 202505
+{c:'202505',p:'HILO',m:'M-1',v:2271526,n:313},{c:'202505',p:'HILO',m:'M0',v:3022874,n:313},{c:'202505',p:'HILO',m:'M1',v:3054559,n:313},{c:'202505',p:'HILO',m:'M2',v:3181561,n:313},{c:'202505',p:'HILO',m:'M3',v:2973022,n:313},{c:'202505',p:'HILO',m:'M4',v:2254473,n:313},{c:'202505',p:'HILO',m:'M5',v:2270316,n:313},{c:'202505',p:'HILO',m:'M6',v:2184617,n:313},
+{c:'202505',p:'LOLO',m:'M-1',v:225250,n:480},{c:'202505',p:'LOLO',m:'M0',v:980594,n:480},{c:'202505',p:'LOLO',m:'M1',v:1120756,n:480},{c:'202505',p:'LOLO',m:'M2',v:1260691,n:480},{c:'202505',p:'LOLO',m:'M3',v:962435,n:480},{c:'202505',p:'LOLO',m:'M4',v:698781,n:480},{c:'202505',p:'LOLO',m:'M5',v:843477,n:480},{c:'202505',p:'LOLO',m:'M6',v:729796,n:480},
+{c:'202505',p:'MILO',m:'M-1',v:928444,n:400},{c:'202505',p:'MILO',m:'M0',v:1442427,n:400},{c:'202505',p:'MILO',m:'M1',v:1548096,n:400},{c:'202505',p:'MILO',m:'M2',v:1557476,n:400},{c:'202505',p:'MILO',m:'M3',v:1353865,n:400},{c:'202505',p:'MILO',m:'M4',v:1045610,n:400},{c:'202505',p:'MILO',m:'M5',v:1066090,n:400},{c:'202505',p:'MILO',m:'M6',v:931571,n:400},
+// 202506
+{c:'202506',p:'HILO',m:'M-1',v:1787316,n:489},{c:'202506',p:'HILO',m:'M0',v:2199336,n:489},{c:'202506',p:'HILO',m:'M1',v:2280297,n:489},{c:'202506',p:'HILO',m:'M2',v:2083980,n:489},{c:'202506',p:'HILO',m:'M3',v:1792082,n:489},{c:'202506',p:'HILO',m:'M4',v:1986184,n:489},{c:'202506',p:'HILO',m:'M5',v:1793472,n:489},{c:'202506',p:'HILO',m:'M6',v:2397482,n:489},
+{c:'202506',p:'LOLO',m:'M-1',v:110906,n:443},{c:'202506',p:'LOLO',m:'M0',v:667687,n:443},{c:'202506',p:'LOLO',m:'M1',v:830313,n:443},{c:'202506',p:'LOLO',m:'M2',v:792144,n:443},{c:'202506',p:'LOLO',m:'M3',v:572446,n:443},{c:'202506',p:'LOLO',m:'M4',v:716191,n:443},{c:'202506',p:'LOLO',m:'M5',v:647167,n:443},{c:'202506',p:'LOLO',m:'M6',v:1071047,n:443},
+{c:'202506',p:'MILO',m:'M-1',v:641090,n:503},{c:'202506',p:'MILO',m:'M0',v:1010244,n:503},{c:'202506',p:'MILO',m:'M1',v:1174471,n:503},{c:'202506',p:'MILO',m:'M2',v:1025033,n:503},{c:'202506',p:'MILO',m:'M3',v:854692,n:503},{c:'202506',p:'MILO',m:'M4',v:1038336,n:503},{c:'202506',p:'MILO',m:'M5',v:979976,n:503},{c:'202506',p:'MILO',m:'M6',v:1339714,n:503},
+// 202507
+{c:'202507',p:'HILO',m:'M-1',v:1957111,n:444},{c:'202507',p:'HILO',m:'M0',v:2575103,n:444},{c:'202507',p:'HILO',m:'M1',v:2909165,n:444},{c:'202507',p:'HILO',m:'M2',v:2758894,n:444},{c:'202507',p:'HILO',m:'M3',v:2510507,n:444},{c:'202507',p:'HILO',m:'M4',v:1951268,n:444},{c:'202507',p:'HILO',m:'M5',v:2517681,n:444},{c:'202507',p:'HILO',m:'M6',v:2142743,n:444},
+{c:'202507',p:'HILO TOP',m:'M-1',v:12256441,n:12},{c:'202507',p:'HILO TOP',m:'M0',v:16494021,n:12},{c:'202507',p:'HILO TOP',m:'M1',v:14939070,n:12},{c:'202507',p:'HILO TOP',m:'M2',v:11549873,n:12},{c:'202507',p:'HILO TOP',m:'M3',v:11746277,n:12},{c:'202507',p:'HILO TOP',m:'M4',v:10849283,n:12},{c:'202507',p:'HILO TOP',m:'M5',v:16242781,n:12},{c:'202507',p:'HILO TOP',m:'M6',v:14843732,n:12},
+{c:'202507',p:'LOLO',m:'M-1',v:140042,n:496},{c:'202507',p:'LOLO',m:'M0',v:725733,n:496},{c:'202507',p:'LOLO',m:'M1',v:878736,n:496},{c:'202507',p:'LOLO',m:'M2',v:689274,n:496},{c:'202507',p:'LOLO',m:'M3',v:610952,n:496},{c:'202507',p:'LOLO',m:'M4',v:591897,n:496},{c:'202507',p:'LOLO',m:'M5',v:832650,n:496},{c:'202507',p:'LOLO',m:'M6',v:702836,n:496},
+{c:'202507',p:'MILO',m:'M-1',v:693331,n:576},{c:'202507',p:'MILO',m:'M0',v:1103841,n:576},{c:'202507',p:'MILO',m:'M1',v:1170501,n:576},{c:'202507',p:'MILO',m:'M2',v:1098326,n:576},{c:'202507',p:'MILO',m:'M3',v:1052466,n:576},{c:'202507',p:'MILO',m:'M4',v:949603,n:576},{c:'202507',p:'MILO',m:'M5',v:1362952,n:576},{c:'202507',p:'MILO',m:'M6',v:1043289,n:576},
+// 202508
+{c:'202508',p:'HILO',m:'M-1',v:1810464,n:235},{c:'202508',p:'HILO',m:'M0',v:2564105,n:235},{c:'202508',p:'HILO',m:'M1',v:2887084,n:235},{c:'202508',p:'HILO',m:'M2',v:3177278,n:235},{c:'202508',p:'HILO',m:'M3',v:2486057,n:235},{c:'202508',p:'HILO',m:'M4',v:3119797,n:235},{c:'202508',p:'HILO',m:'M5',v:2387579,n:235},{c:'202508',p:'HILO',m:'M6',v:2119174,n:235},
+{c:'202508',p:'HILO TOP',m:'M-1',v:12853315,n:53},{c:'202508',p:'HILO TOP',m:'M0',v:14440144,n:53},{c:'202508',p:'HILO TOP',m:'M1',v:11852416,n:53},{c:'202508',p:'HILO TOP',m:'M2',v:12722273,n:53},{c:'202508',p:'HILO TOP',m:'M3',v:11086473,n:53},{c:'202508',p:'HILO TOP',m:'M4',v:14027860,n:53},{c:'202508',p:'HILO TOP',m:'M5',v:11373831,n:53},{c:'202508',p:'HILO TOP',m:'M6',v:9177396,n:53},
+{c:'202508',p:'LOLO',m:'M-1',v:147178,n:474},{c:'202508',p:'LOLO',m:'M0',v:667926,n:474},{c:'202508',p:'LOLO',m:'M1',v:773034,n:474},{c:'202508',p:'LOLO',m:'M2',v:994622,n:474},{c:'202508',p:'LOLO',m:'M3',v:834709,n:474},{c:'202508',p:'LOLO',m:'M4',v:860217,n:474},{c:'202508',p:'LOLO',m:'M5',v:838950,n:474},{c:'202508',p:'LOLO',m:'M6',v:667572,n:474},
+{c:'202508',p:'MILO',m:'M-1',v:743115,n:412},{c:'202508',p:'MILO',m:'M0',v:1100665,n:412},{c:'202508',p:'MILO',m:'M1',v:1117116,n:412},{c:'202508',p:'MILO',m:'M2',v:1245314,n:412},{c:'202508',p:'MILO',m:'M3',v:1022909,n:412},{c:'202508',p:'MILO',m:'M4',v:1359236,n:412},{c:'202508',p:'MILO',m:'M5',v:1054178,n:412},{c:'202508',p:'MILO',m:'M6',v:921859,n:412},
+// 202509
+{c:'202509',p:'CHINOS',m:'M-1',v:492590,n:26},{c:'202509',p:'CHINOS',m:'M0',v:3915844,n:26},{c:'202509',p:'CHINOS',m:'M1',v:7795337,n:26},{c:'202509',p:'CHINOS',m:'M2',v:9303022,n:26},{c:'202509',p:'CHINOS',m:'M3',v:11277106,n:26},{c:'202509',p:'CHINOS',m:'M4',v:7216734,n:26},{c:'202509',p:'CHINOS',m:'M5',v:6839659,n:26},{c:'202509',p:'CHINOS',m:'M6',v:5085684,n:26},
+{c:'202509',p:'HILO',m:'M-1',v:2209251,n:232},{c:'202509',p:'HILO',m:'M0',v:2751087,n:232},{c:'202509',p:'HILO',m:'M1',v:3600831,n:232},{c:'202509',p:'HILO',m:'M2',v:3064932,n:232},{c:'202509',p:'HILO',m:'M3',v:3596332,n:232},{c:'202509',p:'HILO',m:'M4',v:2559394,n:232},{c:'202509',p:'HILO',m:'M5',v:1957400,n:232},{c:'202509',p:'HILO',m:'M6',v:1749882,n:232},
+{c:'202509',p:'HILO TOP',m:'M-1',v:8219191,n:201},{c:'202509',p:'HILO TOP',m:'M0',v:8603293,n:201},{c:'202509',p:'HILO TOP',m:'M1',v:9942639,n:201},{c:'202509',p:'HILO TOP',m:'M2',v:9513864,n:201},{c:'202509',p:'HILO TOP',m:'M3',v:13024493,n:201},{c:'202509',p:'HILO TOP',m:'M4',v:9907714,n:201},{c:'202509',p:'HILO TOP',m:'M5',v:7996916,n:201},{c:'202509',p:'HILO TOP',m:'M6',v:6367970,n:201},
+{c:'202509',p:'LOLO',m:'M-1',v:258320,n:902},{c:'202509',p:'LOLO',m:'M0',v:600757,n:902},{c:'202509',p:'LOLO',m:'M1',v:795221,n:902},{c:'202509',p:'LOLO',m:'M2',v:780977,n:902},{c:'202509',p:'LOLO',m:'M3',v:993316,n:902},{c:'202509',p:'LOLO',m:'M4',v:849213,n:902},{c:'202509',p:'LOLO',m:'M5',v:751515,n:902},{c:'202509',p:'LOLO',m:'M6',v:537870,n:902},
+{c:'202509',p:'MILO',m:'M-1',v:688274,n:352},{c:'202509',p:'MILO',m:'M0',v:1107740,n:352},{c:'202509',p:'MILO',m:'M1',v:1377698,n:352},{c:'202509',p:'MILO',m:'M2',v:1103248,n:352},{c:'202509',p:'MILO',m:'M3',v:1556164,n:352},{c:'202509',p:'MILO',m:'M4',v:1193292,n:352},{c:'202509',p:'MILO',m:'M5',v:1051260,n:352},{c:'202509',p:'MILO',m:'M6',v:767559,n:352},
+// 202510
+{c:'202510',p:'CHINO',m:'M-1',v:461421,n:11},{c:'202510',p:'CHINO',m:'M0',v:7388226,n:11},{c:'202510',p:'CHINO',m:'M1',v:14105752,n:11},{c:'202510',p:'CHINO',m:'M2',v:27281416,n:11},{c:'202510',p:'CHINO',m:'M3',v:15927359,n:11},{c:'202510',p:'CHINO',m:'M4',v:14467517,n:11},{c:'202510',p:'CHINO',m:'M5',v:9460045,n:11},
+{c:'202510',p:'HILO',m:'M-1',v:1597122,n:120},{c:'202510',p:'HILO',m:'M0',v:2833400,n:120},{c:'202510',p:'HILO',m:'M1',v:3126509,n:120},{c:'202510',p:'HILO',m:'M2',v:4415523,n:120},{c:'202510',p:'HILO',m:'M3',v:3334026,n:120},{c:'202510',p:'HILO',m:'M4',v:2869444,n:120},{c:'202510',p:'HILO',m:'M5',v:2162358,n:120},
+{c:'202510',p:'LOLO',m:'M-1',v:138140,n:464},{c:'202510',p:'LOLO',m:'M0',v:729934,n:464},{c:'202510',p:'LOLO',m:'M1',v:1179932,n:464},{c:'202510',p:'LOLO',m:'M2',v:1535200,n:464},{c:'202510',p:'LOLO',m:'M3',v:1365381,n:464},{c:'202510',p:'LOLO',m:'M4',v:754632,n:464},{c:'202510',p:'LOLO',m:'M5',v:382183,n:464},
+{c:'202510',p:'MILO',m:'M-1',v:550087,n:289},{c:'202510',p:'MILO',m:'M0',v:1144631,n:289},{c:'202510',p:'MILO',m:'M1',v:1237629,n:289},{c:'202510',p:'MILO',m:'M2',v:1914281,n:289},{c:'202510',p:'MILO',m:'M3',v:1262293,n:289},{c:'202510',p:'MILO',m:'M4',v:1189328,n:289},{c:'202510',p:'MILO',m:'M5',v:1028967,n:289},
+// 202511
+{c:'202511',p:'CHINO',m:'M-1',v:1856741,n:8},{c:'202511',p:'CHINO',m:'M0',v:10130691,n:8},{c:'202511',p:'CHINO',m:'M1',v:18927475,n:8},{c:'202511',p:'CHINO',m:'M2',v:14276347,n:8},{c:'202511',p:'CHINO',m:'M3',v:13849931,n:8},{c:'202511',p:'CHINO',m:'M4',v:11523330,n:8},
+{c:'202511',p:'HILO',m:'M-1',v:2273813,n:141},{c:'202511',p:'HILO',m:'M0',v:3122088,n:141},{c:'202511',p:'HILO',m:'M1',v:5184016,n:141},{c:'202511',p:'HILO',m:'M2',v:4238889,n:141},{c:'202511',p:'HILO',m:'M3',v:3642937,n:141},{c:'202511',p:'HILO',m:'M4',v:2887868,n:141},
+{c:'202511',p:'HILO TOP',m:'M-1',v:4565580,n:1},{c:'202511',p:'HILO TOP',m:'M0',v:3415046,n:1},{c:'202511',p:'HILO TOP',m:'M1',v:2991600,n:1},{c:'202511',p:'HILO TOP',m:'M2',v:4955530,n:1},{c:'202511',p:'HILO TOP',m:'M3',v:1997000,n:1},{c:'202511',p:'HILO TOP',m:'M4',v:1621500,n:1},
+{c:'202511',p:'LOLO',m:'M-1',v:122563,n:551},{c:'202511',p:'LOLO',m:'M0',v:601611,n:551},{c:'202511',p:'LOLO',m:'M1',v:1199591,n:551},{c:'202511',p:'LOLO',m:'M2',v:1042384,n:551},{c:'202511',p:'LOLO',m:'M3',v:772834,n:551},{c:'202511',p:'LOLO',m:'M4',v:563637,n:551},
+{c:'202511',p:'MILO',m:'M-1',v:833741,n:337},{c:'202511',p:'MILO',m:'M0',v:1240361,n:337},{c:'202511',p:'MILO',m:'M1',v:1994866,n:337},{c:'202511',p:'MILO',m:'M2',v:1512562,n:337},{c:'202511',p:'MILO',m:'M3',v:1216916,n:337},{c:'202511',p:'MILO',m:'M4',v:957231,n:337},
+// 202512
+{c:'202512',p:'HILO',m:'M-1',v:1595163,n:193},{c:'202512',p:'HILO',m:'M0',v:4279379,n:193},{c:'202512',p:'HILO',m:'M1',v:3977974,n:193},{c:'202512',p:'HILO',m:'M2',v:3523396,n:193},{c:'202512',p:'HILO',m:'M3',v:2400177,n:193},
+{c:'202512',p:'HILO TOP',m:'M-1',v:1692616,n:65},{c:'202512',p:'HILO TOP',m:'M0',v:4097838,n:65},{c:'202512',p:'HILO TOP',m:'M1',v:3344695,n:65},{c:'202512',p:'HILO TOP',m:'M2',v:3503353,n:65},{c:'202512',p:'HILO TOP',m:'M3',v:2660088,n:65},
+{c:'202512',p:'LOLO',m:'M-1',v:784169,n:314},{c:'202512',p:'LOLO',m:'M0',v:1449875,n:314},{c:'202512',p:'LOLO',m:'M1',v:1425250,n:314},{c:'202512',p:'LOLO',m:'M2',v:1241346,n:314},{c:'202512',p:'LOLO',m:'M3',v:939160,n:314},
+{c:'202512',p:'LOLO DTO',m:'M-1',v:84083,n:612},{c:'202512',p:'LOLO DTO',m:'M0',v:448478,n:612},{c:'202512',p:'LOLO DTO',m:'M1',v:563129,n:612},{c:'202512',p:'LOLO DTO',m:'M2',v:485047,n:612},{c:'202512',p:'LOLO DTO',m:'M3',v:390661,n:612},
+{c:'202512',p:'MILO',m:'M-1',v:301233,n:308},{c:'202512',p:'MILO',m:'M0',v:976454,n:308},{c:'202512',p:'MILO',m:'M1',v:1153898,n:308},{c:'202512',p:'MILO',m:'M2',v:873081,n:308},{c:'202512',p:'MILO',m:'M3',v:545123,n:308},
+{c:'202512',p:'MILO DTO',m:'M-1',v:196678,n:207},{c:'202512',p:'MILO DTO',m:'M0',v:761076,n:207},{c:'202512',p:'MILO DTO',m:'M1',v:930624,n:207},{c:'202512',p:'MILO DTO',m:'M2',v:816036,n:207},{c:'202512',p:'MILO DTO',m:'M3',v:660267,n:207},
+// 202601
+{c:'202601',p:'HILO',m:'M-1',v:1685812,n:143},{c:'202601',p:'HILO',m:'M0',v:2506259,n:143},{c:'202601',p:'HILO',m:'M1',v:2387957,n:143},{c:'202601',p:'HILO',m:'M2',v:1698764,n:143},
+{c:'202601',p:'HILO TOP',m:'M-1',v:3259289,n:27},{c:'202601',p:'HILO TOP',m:'M0',v:4257151,n:27},{c:'202601',p:'HILO TOP',m:'M1',v:4041077,n:27},{c:'202601',p:'HILO TOP',m:'M2',v:2726252,n:27},
+{c:'202601',p:'LOLO',m:'M-1',v:364933,n:165},{c:'202601',p:'LOLO',m:'M0',v:704298,n:165},{c:'202601',p:'LOLO',m:'M1',v:730666,n:165},{c:'202601',p:'LOLO',m:'M2',v:326198,n:165},
+{c:'202601',p:'LOLO DTO',m:'M-1',v:180807,n:491},{c:'202601',p:'LOLO DTO',m:'M0',v:256334,n:491},{c:'202601',p:'LOLO DTO',m:'M1',v:232981,n:491},{c:'202601',p:'LOLO DTO',m:'M2',v:193635,n:491},
+{c:'202601',p:'MILO',m:'M-1',v:641958,n:202},{c:'202601',p:'MILO',m:'M0',v:922279,n:202},{c:'202601',p:'MILO',m:'M1',v:837124,n:202},{c:'202601',p:'MILO',m:'M2',v:589099,n:202},
+{c:'202601',p:'MILO DTO',m:'M-1',v:347383,n:133},{c:'202601',p:'MILO DTO',m:'M0',v:677530,n:133},{c:'202601',p:'MILO DTO',m:'M1',v:605077,n:133},{c:'202601',p:'MILO DTO',m:'M2',v:436104,n:133},
+// 202602
+{c:'202602',p:'HILO',m:'M-1',v:795672,n:86},{c:'202602',p:'HILO',m:'M0',v:1195855,n:86},{c:'202602',p:'HILO',m:'M1',v:1038165,n:86},
+{c:'202602',p:'HILO TOP',m:'M-1',v:2631583,n:27},{c:'202602',p:'HILO TOP',m:'M0',v:2221927,n:27},{c:'202602',p:'HILO TOP',m:'M1',v:1508081,n:27},
+{c:'202602',p:'LOLO',m:'M-1',v:153569,n:127},{c:'202602',p:'LOLO',m:'M0',v:461944,n:127},{c:'202602',p:'LOLO',m:'M1',v:561295,n:127},
+{c:'202602',p:'LOLO DTO',m:'M-1',v:352068,n:720},{c:'202602',p:'LOLO DTO',m:'M0',v:573386,n:720},{c:'202602',p:'LOLO DTO',m:'M1',v:487603,n:720},
+{c:'202602',p:'MILO',m:'M-1',v:485110,n:139},{c:'202602',p:'MILO',m:'M0',v:740539,n:139},{c:'202602',p:'MILO',m:'M1',v:535233,n:139},
+{c:'202602',p:'MILO DTO',m:'M-1',v:325253,n:104},{c:'202602',p:'MILO DTO',m:'M0',v:603961,n:104},{c:'202602',p:'MILO DTO',m:'M1',v:489875,n:104},
+// 202603
+{c:'202603',p:'HILO',m:'M-1',v:1087735,n:63},{c:'202603',p:'HILO',m:'M0',v:1396143,n:63},
+{c:'202603',p:'HILO TOP',m:'M-1',v:1295554,n:25},{c:'202603',p:'HILO TOP',m:'M0',v:1706951,n:25},
+{c:'202603',p:'LOLO',m:'M-1',v:240601,n:129},{c:'202603',p:'LOLO',m:'M0',v:559522,n:129},
+{c:'202603',p:'LOLO DTO',m:'M-1',v:361242,n:687},{c:'202603',p:'LOLO DTO',m:'M0',v:492202,n:687},
+{c:'202603',p:'MILO',m:'M-1',v:374944,n:125},{c:'202603',p:'MILO',m:'M0',v:465975,n:125},
+{c:'202603',p:'MILO DTO',m:'M-1',v:187100,n:80},{c:'202603',p:'MILO DTO',m:'M0',v:262537,n:80},
+];
 
 const COHORTS = [
   {mes:'202510', sellers:884,  pot:86,  pctPot:0.097, tpvM0:671,  tpvM1:1016, vcM0:15.6, vcM1:11.1},
@@ -318,14 +402,66 @@ new Chart(document.getElementById('chartActivosCancelados'), {
 });
 
 // ---- PAGE 2 CHARTS ----
-new Chart(document.getElementById('chartCurva'), {
+
+// Populate filter dropdowns from COHORT_DATA
+(function() {
+  const moNames = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const cohorts = [...new Set(COHORT_DATA.map(d => d.c))].sort();
+  const plans   = [...new Set(COHORT_DATA.map(d => d.p))].sort();
+  const sc = document.getElementById('selCohort');
+  cohorts.forEach(c => {
+    const yr = c.slice(2,4); const mo = parseInt(c.slice(4));
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = moNames[mo]+'-'+yr;
+    sc.appendChild(opt);
+  });
+  const sp = document.getElementById('selPlan');
+  plans.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p; opt.textContent = p;
+    sp.appendChild(opt);
+  });
+})();
+
+function computeCurva(cohortFilter, planFilter) {
+  // Build groups: {cohort|plan → {mes → tpv}}
+  const groups = {};
+  COHORT_DATA.forEach(d => {
+    if (cohortFilter !== 'all' && d.c !== cohortFilter) return;
+    if (planFilter !== 'all' && d.p !== planFilter) return;
+    const key = d.c + '|' + d.p;
+    if (!groups[key]) groups[key] = {};
+    groups[key][d.m] = d.v;
+  });
+  const months = ['M-1','M0','M1','M2','M3','M4','M5','M6'];
+  const incrSums = {}, incrCounts = {};
+  months.forEach(m => { incrSums[m] = 0; incrCounts[m] = 0; });
+  let baseSum = 0, baseCnt = 0;
+  Object.values(groups).forEach(g => {
+    const base = g['M-1'];
+    if (!base || base <= 0) return;
+    baseSum += base; baseCnt++;
+    months.forEach(m => {
+      if (m === 'M-1') { incrSums[m] += 0; incrCounts[m]++; }
+      else if (g[m] && g[m] > 0) { incrSums[m] += g[m] - base; incrCounts[m]++; }
+    });
+  });
+  return {
+    values: months.map(m => incrCounts[m] > 0 ? Math.round(incrSums[m] / incrCounts[m]) : null),
+    base: baseCnt > 0 ? Math.round(baseSum / baseCnt) : 0,
+    groups: Object.keys(groups).length
+  };
+}
+
+const curvaInit = computeCurva('all', 'all');
+const curvaChart = new Chart(document.getElementById('chartCurva'), {
   type: 'bar',
   data: {
     labels: TPV_LABELS,
     datasets: [{
-      label: 'TPV Promedio ARS',
-      data: TPV_CURVA,
-      backgroundColor: TPV_CURVA.map((v,i) => i === 0 ? '#e0e0e0' : '#FFD200'),
+      label: 'TPV Incremental ARS',
+      data: curvaInit.values,
+      backgroundColor: curvaInit.values.map((v,i) => i===0 ? '#e0e0e0' : (v < 0 ? '#ef9a9a' : '#FFD200')),
       borderRadius: 4
     }]
   },
@@ -333,29 +469,55 @@ new Chart(document.getElementById('chartCurva'), {
     responsive: true,
     plugins: {
       legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ` $${fmt(ctx.raw)} ARS` } }
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const v = ctx.raw;
+            if (v === null) return ' sin datos';
+            if (ctx.dataIndex === 0) return ` TPV base: $${fmt(Math.abs(v))} ARS`;
+            return ` ${v >= 0 ? '+' : ''}$${fmt(v)} ARS vs M-1`;
+          }
+        }
+      }
     },
     scales: {
       x: { grid: { display: false } },
-      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => (v >= 0 ? '+' : '') + '$'+(v/1000).toFixed(0)+'K' } }
     }
   },
   plugins: [{
-    id: 'labels',
+    id: 'curvaLabels',
     afterDatasetsDraw(chart) {
-      const { ctx } = chart;
+      const { ctx, data } = chart;
       chart.getDatasetMeta(0).data.forEach((bar, i) => {
-        const incr = i === 0 ? '' : ' (+' + Math.round((TPV_CURVA[i]-TPV_CURVA[0])/TPV_CURVA[0]*100) + '%)';
+        const v = data.datasets[0].data[i];
+        if (v === null) return;
+        let txt;
+        if (i === 0) { txt = '$'+(Math.abs(v)/1000000).toFixed(1)+'M base'; }
+        else { txt = (v>=0?'+':'') + '$'+(v/1000).toFixed(0)+'K'; }
         ctx.save();
-        ctx.fillStyle = '#555';
-        ctx.font = '10px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('$'+(TPV_CURVA[i]/1000).toFixed(0)+'K'+incr, bar.x, bar.y - 6);
+        ctx.fillStyle = '#555'; ctx.font = '9px Arial'; ctx.textAlign = 'center';
+        ctx.fillText(txt, bar.x, bar.y - 5);
         ctx.restore();
       });
     }
   }]
 });
+
+document.getElementById('curvaBaseLabel').textContent =
+  `TPV base (M-1): $${fmt(curvaInit.base)} ARS promedio · ${curvaInit.groups} combinaciones cohort×plan`;
+
+function updateCurva() {
+  const cf = document.getElementById('selCohort').value;
+  const pf = document.getElementById('selPlan').value;
+  const result = computeCurva(cf, pf);
+  const ds = curvaChart.data.datasets[0];
+  ds.data = result.values;
+  ds.backgroundColor = result.values.map((v,i) => i===0 ? '#e0e0e0' : (v !== null && v < 0 ? '#ef9a9a' : '#FFD200'));
+  curvaChart.update();
+  document.getElementById('curvaBaseLabel').textContent =
+    `TPV base (M-1): $${fmt(result.base)} ARS promedio · ${result.groups} combinaciones cohort×plan`;
+}
 
 new Chart(document.getElementById('chartPotenciados'), {
   type: 'bar',
