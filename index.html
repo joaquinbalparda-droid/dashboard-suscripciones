@@ -170,8 +170,9 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 
   <div class="chart-row">
     <div class="chart-box full">
-      <h3>VC Incremental vs M-1 por cohort — total USD (todos los meses de vida)</h3>
-      <canvas id="chartVCCohort" height="100"></canvas>
+      <h3>VC Incremental vs M-1 — total USD por mes de vida</h3>
+      <div id="vcBaseLabel" style="font-size:11px;color:#888;margin-bottom:6px;"></div>
+      <canvas id="chartVCCohort" height="120"></canvas>
     </div>
   </div>
 
@@ -532,62 +533,88 @@ function updateCurva() {
   curvaChart.update();
   document.getElementById('curvaBaseLabel').textContent =
     `TPV base (M-1): $${fmtBig(result.base)} ARS total · ${result.groups} combinaciones cohort×plan`;
+  const vcResult = computeVCCurva(cf, pf);
+  const vcDs = vcChart.data.datasets[0];
+  vcDs.data = vcResult.values;
+  vcDs.backgroundColor = vcResult.values.map((v,i) => i===0 ? '#e0e0e0' : (v !== null && v < 0 ? '#ef9a9a' : '#FFD200'));
+  vcChart.update();
+  document.getElementById('vcBaseLabel').textContent =
+    `VC base (M-1): $${fmtBig(vcResult.base)} USD total`;
 }
 
-// ---- VC INCREMENTAL POR COHORT ----
-(function() {
-  const moNames = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const cohortList = [...new Set(COHORT_DATA.map(d => d.c))].sort();
-  const mxLabels = ['M0','M1','M2','M3','M4','M5','M6'];
-  // Color gradient: gray for old cohorts, bright for recent
-  const palette = ['#e0e0e0','#bdbdbd','#9e9e9e','#757575','#616161',
-                   '#ffcc02','#ffb300','#ff8f00','#ff6f00','#e65100',
-                   '#FFD200','#f57f17'];
-
-  const datasets = cohortList.map((c, idx) => {
-    const rows = COHORT_DATA.filter(d => d.c === c);
-    const plans = [...new Set(rows.map(d => d.p))];
-    let baseTotal = 0;
-    plans.forEach(p => {
-      const b = rows.find(d => d.p === p && d.m === 'M-1');
-      if (b && b.vc > 0) baseTotal += b.vc * b.n;
-    });
-    const data = mxLabels.map(mx => {
-      let mxTotal = 0, has = false;
-      plans.forEach(p => {
-        const b = rows.find(d => d.p === p && d.m === 'M-1');
-        const r = rows.find(d => d.p === p && d.m === mx);
-        if (b && b.vc > 0 && r && r.vc > 0) { mxTotal += r.vc * r.n; has = true; }
-      });
-      return has ? Math.round(mxTotal - baseTotal) : null;
-    });
-    const yr = c.slice(2,4); const mo = parseInt(c.slice(4));
-    const color = palette[idx % palette.length];
-    const isRecent = idx >= cohortList.length - 4;
-    return { label: moNames[mo]+'-'+yr, data, borderColor: color, backgroundColor: color,
-             borderWidth: isRecent ? 2.5 : 1.5, pointRadius: isRecent ? 4 : 2, tension: 0.3, spanGaps: false };
+// ---- VC INCREMENTAL POR COHORT (igual al de TPV) ----
+function computeVCCurva(cohortFilter, planFilter) {
+  const groups = {};
+  COHORT_DATA.forEach(d => {
+    if (cohortFilter !== 'all' && d.c !== cohortFilter) return;
+    if (planFilter !== 'all' && d.p !== planFilter) return;
+    const key = d.c + '|' + d.p;
+    if (!groups[key]) groups[key] = {};
+    groups[key][d.m] = { vc: d.vc, n: d.n };
   });
+  const months = ['M-1','M0','M1','M2','M3','M4','M5','M6'];
+  const incrSums = new Array(8).fill(0);
+  const hasMon = new Array(8).fill(false);
+  let baseVc = 0;
+  Object.values(groups).forEach(g => {
+    const base = g['M-1'];
+    if (!base || !base.vc || base.vc <= 0) return;
+    const baseTot = base.vc * base.n;
+    baseVc += baseTot;
+    months.forEach((m, i) => {
+      if (m === 'M-1') { incrSums[i] += 0; hasMon[i] = true; }
+      else if (g[m] && g[m].vc > 0) { incrSums[i] += g[m].vc * g[m].n - baseTot; hasMon[i] = true; }
+    });
+  });
+  return {
+    values: months.map((m, i) => hasMon[i] ? Math.round(incrSums[i]) : null),
+    base: Math.round(baseVc)
+  };
+}
 
-  new Chart(document.getElementById('chartVCCohort'), {
-    type: 'line',
-    data: { labels: mxLabels, datasets },
-    options: {
-      responsive: true,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { position: 'right', labels: { font: { size: 10 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: ctx => {
-          const v = ctx.raw; if (v === null) return null;
-          return ` ${ctx.dataset.label}: ${v >= 0 ? '+' : ''}$${fmtBig(v)} USD`;
-        }}}
-      },
-      scales: {
-        x: { grid: { display: false } },
-        y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => '$'+fmtBig(v) } }
-      }
+const vcInit = computeVCCurva('all', 'all');
+const vcChart = new Chart(document.getElementById('chartVCCohort'), {
+  type: 'bar',
+  data: {
+    labels: TPV_LABELS,
+    datasets: [{
+      label: 'VC Incremental USD',
+      data: vcInit.values,
+      backgroundColor: vcInit.values.map((v,i) => i===0 ? '#e0e0e0' : (v < 0 ? '#ef9a9a' : '#FFD200')),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const v = ctx.raw; if (v === null) return ' sin datos';
+        if (ctx.dataIndex === 0) return ` VC base M-1: $${fmtBig(Math.abs(v))} USD total`;
+        return ` ${v >= 0 ? '+' : ''}$${fmtBig(v)} USD vs M-1`;
+      }}}
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => (v >= 0 ? '+' : '')+'$'+fmtBig(v) } }
     }
-  });
-})();
+  },
+  plugins: [{
+    id: 'vcLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx, data } = chart;
+      chart.getDatasetMeta(0).data.forEach((bar, i) => {
+        const v = data.datasets[0].data[i]; if (v === null) return;
+        const txt = i === 0 ? '$'+fmtBig(Math.abs(v))+' base' : (v>=0?'+':'')+'$'+fmtBig(v);
+        ctx.save(); ctx.fillStyle = '#555'; ctx.font = '9px Arial'; ctx.textAlign = 'center';
+        ctx.fillText(txt, bar.x, bar.y - 5); ctx.restore();
+      });
+    }
+  }]
+});
+
+document.getElementById('vcBaseLabel').textContent =
+  `VC base (M-1): $${fmtBig(vcInit.base)} USD total`;
 
 new Chart(document.getElementById('chartPotenciados'), {
   type: 'bar',
