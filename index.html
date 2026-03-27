@@ -176,6 +176,26 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
     </div>
   </div>
 
+  <div class="chart-row">
+    <div class="chart-box full">
+      <h3>VC Incremental por cohort — total USD
+        <span style="float:right;font-weight:400;font-size:12px;">
+          Mes de vida:
+          <select id="selVCMes" onchange="updateVCByCohort()" style="font-size:12px;padding:2px 6px;border:1px solid #ddd;border-radius:4px;">
+            <option value="M0">M0</option>
+            <option value="M1">M1</option>
+            <option value="M2">M2</option>
+            <option value="M3">M3</option>
+            <option value="M4">M4</option>
+            <option value="M5">M5</option>
+            <option value="M6">M6</option>
+          </select>
+        </span>
+      </h3>
+      <canvas id="chartVCByCohort" height="100"></canvas>
+    </div>
+  </div>
+
   <div class="chart-box">
     <h3>Resultados por cohort — 2025/2026</h3>
     <table class="tbl">
@@ -615,6 +635,76 @@ const vcChart = new Chart(document.getElementById('chartVCCohort'), {
 
 document.getElementById('vcBaseLabel').textContent =
   `VC base (M-1): $${fmtBig(vcInit.base)} USD total`;
+
+// ---- VC INCREMENTAL POR COHORT (X = cohort, filtro por mes de vida) ----
+const VC_COHORT_LIST = [...new Set(COHORT_DATA.map(d => d.c))].sort();
+const VC_COHORT_LABELS = VC_COHORT_LIST.map(c => {
+  const moNames = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return moNames[parseInt(c.slice(4))]+'-'+c.slice(2,4);
+});
+
+function computeVCByCohort(mx) {
+  return VC_COHORT_LIST.map(c => {
+    const rows = COHORT_DATA.filter(d => d.c === c);
+    const plans = [...new Set(rows.map(d => d.p))];
+    let base = 0, mxTot = 0, hasBase = false, hasMx = false;
+    plans.forEach(p => {
+      const b = rows.find(d => d.p === p && d.m === 'M-1');
+      const r = rows.find(d => d.p === p && d.m === mx);
+      if (b && b.vc > 0) { base += b.vc * b.n; hasBase = true; }
+      if (b && b.vc > 0 && r && r.vc > 0) { mxTot += r.vc * r.n; hasMx = true; }
+    });
+    return hasBase && hasMx ? Math.round(mxTot - base) : null;
+  });
+}
+
+const vcByCoInit = computeVCByCohort('M0');
+const vcByCoChart = new Chart(document.getElementById('chartVCByCohort'), {
+  type: 'bar',
+  data: {
+    labels: VC_COHORT_LABELS,
+    datasets: [{
+      label: 'VC Incremental USD',
+      data: vcByCoInit,
+      backgroundColor: vcByCoInit.map(v => v === null ? '#e0e0e0' : v < 0 ? '#ef9a9a' : '#FFD200'),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const v = ctx.raw; if (v === null) return ' sin datos';
+        return ` ${v >= 0 ? '+' : ''}$${fmtBig(v)} USD vs M-1`;
+      }}}
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: '#f5f5f5' }, ticks: { callback: v => (v >= 0 ? '+' : '')+'$'+fmtBig(v) } }
+    }
+  },
+  plugins: [{
+    id: 'vcCoLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx, data } = chart;
+      chart.getDatasetMeta(0).data.forEach((bar, i) => {
+        const v = data.datasets[0].data[i]; if (v === null) return;
+        ctx.save(); ctx.fillStyle = '#555'; ctx.font = '9px Arial'; ctx.textAlign = 'center';
+        ctx.fillText((v>=0?'+':'')+'$'+fmtBig(v), bar.x, bar.y - 5); ctx.restore();
+      });
+    }
+  }]
+});
+
+function updateVCByCohort() {
+  const mx = document.getElementById('selVCMes').value;
+  const data = computeVCByCohort(mx);
+  const ds = vcByCoChart.data.datasets[0];
+  ds.data = data;
+  ds.backgroundColor = data.map(v => v === null ? '#e0e0e0' : v < 0 ? '#ef9a9a' : '#FFD200');
+  vcByCoChart.update();
+}
 
 new Chart(document.getElementById('chartPotenciados'), {
   type: 'bar',
