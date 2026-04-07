@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -66,14 +66,14 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 <body>
 
 <div class="top-bar">
-  <h1>Suscripciones — Dashboard de Resultados</h1>
-  <span class="fecha">Actualizado: 06/04/2026</span>
+  <h1>Suscripciones â€” Dashboard de Resultados</h1>
+  <span class="fecha">Actualizado: 07/04/2026</span>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="showPage(0)">📊 Resumen del Mes</div>
-  <div class="tab" onclick="showPage(1)">📈 Impacto por Cohort</div>
-  <div class="tab" onclick="showPage(2)">📡 Canales</div>
+  <div class="tab active" onclick="showPage(0)">ðŸ“Š Resumen del Mes</div>
+  <div class="tab" onclick="showPage(1)">ðŸ“ˆ Impacto por Cohort</div>
+  <div class="tab" onclick="showPage(2)">ðŸ“¡ Canales</div>
 </div>
 
 <!-- PAGE 1: RESUMEN -->
@@ -82,7 +82,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
     <div class="kpi">
       <div class="label">Suscriptos Activos</div>
       <div class="value">1.082</div>
-      <div class="sub"><span class="up">▲ +66 vs feb</span></div>
+      <div class="sub"><span class="up">â–² +66 vs feb</span></div>
     </div>
     <div class="kpi">
       <div class="label">Nuevos en Mar-26</div>
@@ -97,7 +97,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
     <div class="kpi">
       <div class="label">Revenue Plan (Mar)</div>
       <div class="value">$9.6M</div>
-      <div class="sub">ARS — activos</div>
+      <div class="sub">ARS â€” activos</div>
     </div>
     <div class="kpi">
       <div class="label">% Potenciados M0</div>
@@ -112,13 +112,13 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
       <canvas id="chartEvolucion" height="120"></canvas>
     </div>
     <div class="chart-box">
-      <h3>Mix de planes — Mar 2026</h3>
+      <h3>Mix de planes â€” Mar 2026</h3>
       <canvas id="chartDonut" height="200"></canvas>
     </div>
   </div>
 
   <div class="chart-box">
-    <h3>Activos vs Cancelados — últimos 3 meses</h3>
+    <h3>Activos vs Cancelados â€” Ãºltimos 3 meses</h3>
     <canvas id="chartActivosCancelados" height="80"></canvas>
   </div>
 </div>
@@ -129,12 +129,12 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
     <div class="kpi">
       <div class="label">TPV Incr. M0 Prom (2025)</div>
       <div class="value">+$504K</div>
-      <div class="sub">ARS vs M-1 · promedio histórico</div>
+      <div class="sub">ARS vs M-1 Â· promedio histÃ³rico</div>
     </div>
     <div class="kpi">
       <div class="label">TPV Incr. M1 Prom (2025)</div>
       <div class="value">+$668K</div>
-      <div class="sub">ARS vs M-1 · promedio histórico</div>
+      <div class="sub">ARS vs M-1 Â· promedio histÃ³rico</div>
     </div>
     <div class="kpi">
       <div class="label">Uplift M0 vs M-1</div>
@@ -151,7 +151,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
   <div class="chart-row">
     <div class="chart-box full">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-        <h3 style="margin:0">TPV Incremental vs M-1 — total ARS por mes de vida</h3>
+        <h3 style="margin:0">TPV Incremental vs M-1 â€” total ARS por mes de vida</h3>
         <div class="filter-row">
           <label>Cohort:</label>
           <select id="selCohort" onchange="updateCurva()"><option value="all">Todos</option></select>
@@ -170,7 +170,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 
   <div class="chart-row">
     <div class="chart-box full">
-      <h3>VC Incremental vs M-1 — total USD por mes de vida</h3>
+      <h3>VC Incremental vs M-1 â€” total USD por mes de vida</h3>
       <div id="vcBaseLabel" style="font-size:11px;color:#888;margin-bottom:6px;"></div>
       <canvas id="chartVCCohort" height="120"></canvas>
     </div>
@@ -178,7 +178,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 
   <div class="chart-row">
     <div class="chart-box full">
-      <h3>VC Incremental por cohort — total USD
+      <h3>VC Incremental por cohort â€” total USD
         <span style="float:right;font-weight:400;font-size:12px;">
           Mes de vida:
           <select id="selVCMes" onchange="updateVCByCohort()" style="font-size:12px;padding:2px 6px;border:1px solid #ddd;border-radius:4px;">
@@ -197,7 +197,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
   </div>
 
   <div class="chart-box">
-    <h3>Resultados por cohort — 2025/2026</h3>
+    <h3>Resultados por cohort â€” 2025/2026</h3>
     <table class="tbl">
       <thead>
         <tr>
@@ -225,12 +225,12 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
       <div class="sub">sellers elegibles Mar-26</div>
     </div>
     <div class="kpi">
-      <div class="label">Reach Único</div>
+      <div class="label">Reach Ãšnico</div>
       <div class="value">366.941</div>
       <div class="sub"><span class="up">90.4% de audiencia</span></div>
     </div>
     <div class="kpi">
-      <div class="label">Open Único</div>
+      <div class="label">Open Ãšnico</div>
       <div class="value">186.144</div>
       <div class="sub"><span class="up">45.9% de audiencia</span></div>
     </div>
@@ -243,7 +243,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
 
   <div class="chart-row">
     <div class="chart-box full">
-      <h3>Reach y Open por canal — Mar 2026 (acumulado al 25/mar)</h3>
+      <h3>Reach y Open por canal â€” Mar 2026 (acumulado al 25/mar)</h3>
       <canvas id="chartCanales" height="110"></canvas>
     </div>
     <div class="chart-box">
@@ -253,7 +253,7 @@ body { font-family: Arial, sans-serif; background: #f0f0f0; }
   </div>
 
   <div class="chart-box">
-    <h3>Detalle por plan — Mar 2026</h3>
+    <h3>Detalle por plan â€” Mar 2026</h3>
     <table class="tbl">
       <thead>
         <tr>
@@ -295,82 +295,501 @@ const TPV_LABELS = ['M-1','M0','M1','M2','M3','M4','M5','M6'];
 
 // ---- COHORT DATA (BQ: VW_SUSC_COHORT_LONG, desde 202504) ----
 const COHORT_DATA = [
-// 202504
-{c:'202504',p:'HILO1',m:'M-1',v:1846845,vc:70046,n:113},{c:'202504',p:'HILO1',m:'M0',v:2414059,vc:72743,n:113},{c:'202504',p:'HILO1',m:'M1',v:2725834,vc:89050,n:113},{c:'202504',p:'HILO1',m:'M2',v:2437785,vc:56869,n:113},{c:'202504',p:'HILO1',m:'M3',v:2601517,vc:70278,n:113},{c:'202504',p:'HILO1',m:'M4',v:2370967,vc:75698,n:113},{c:'202504',p:'HILO1',m:'M5',v:1910592,vc:62302,n:113},{c:'202504',p:'HILO1',m:'M6',v:2265714,vc:87653,n:113},
-{c:'202504',p:'LOLO',m:'M-1',v:133228,vc:6290,n:128},{c:'202504',p:'LOLO',m:'M0',v:727232,vc:28952,n:128},{c:'202504',p:'LOLO',m:'M1',v:948185,vc:44256,n:128},{c:'202504',p:'LOLO',m:'M2',v:728278,vc:21306,n:128},{c:'202504',p:'LOLO',m:'M3',v:681015,vc:29169,n:128},{c:'202504',p:'LOLO',m:'M4',v:642844,vc:22434,n:128},{c:'202504',p:'LOLO',m:'M5',v:472031,vc:14818,n:128},{c:'202504',p:'LOLO',m:'M6',v:446275,vc:21477,n:128},
-{c:'202504',p:'MILO',m:'M-1',v:632296,vc:24647,n:142},{c:'202504',p:'MILO',m:'M0',v:1213315,vc:41959,n:142},{c:'202504',p:'MILO',m:'M1',v:1370320,vc:41716,n:142},{c:'202504',p:'MILO',m:'M2',v:1150475,vc:36000,n:142},{c:'202504',p:'MILO',m:'M3',v:1146659,vc:52729,n:142},{c:'202504',p:'MILO',m:'M4',v:898356,vc:31197,n:142},{c:'202504',p:'MILO',m:'M5',v:941110,vc:34607,n:142},{c:'202504',p:'MILO',m:'M6',v:1131599,vc:44998,n:142},
-// 202505
-{c:'202505',p:'HILO',m:'M-1',v:2271526,vc:94259,n:313},{c:'202505',p:'HILO',m:'M0',v:3022874,vc:116098,n:313},{c:'202505',p:'HILO',m:'M1',v:3054559,vc:103693,n:313},{c:'202505',p:'HILO',m:'M2',v:3181561,vc:102609,n:313},{c:'202505',p:'HILO',m:'M3',v:2973022,vc:110257,n:313},{c:'202505',p:'HILO',m:'M4',v:2254473,vc:117366,n:313},{c:'202505',p:'HILO',m:'M5',v:2270316,vc:105366,n:313},{c:'202505',p:'HILO',m:'M6',v:2184617,vc:108754,n:313},
-{c:'202505',p:'LOLO',m:'M-1',v:225250,vc:9634,n:480},{c:'202505',p:'LOLO',m:'M0',v:980594,vc:37065,n:480},{c:'202505',p:'LOLO',m:'M1',v:1120756,vc:32475,n:480},{c:'202505',p:'LOLO',m:'M2',v:1260691,vc:32329,n:480},{c:'202505',p:'LOLO',m:'M3',v:962435,vc:34189,n:480},{c:'202505',p:'LOLO',m:'M4',v:698781,vc:29263,n:480},{c:'202505',p:'LOLO',m:'M5',v:843477,vc:37755,n:480},{c:'202505',p:'LOLO',m:'M6',v:729796,vc:33853,n:480},
-{c:'202505',p:'MILO',m:'M-1',v:928444,vc:39986,n:400},{c:'202505',p:'MILO',m:'M0',v:1442427,vc:55058,n:400},{c:'202505',p:'MILO',m:'M1',v:1548096,vc:48023,n:400},{c:'202505',p:'MILO',m:'M2',v:1557476,vc:46516,n:400},{c:'202505',p:'MILO',m:'M3',v:1353865,vc:50192,n:400},{c:'202505',p:'MILO',m:'M4',v:1045610,vc:53738,n:400},{c:'202505',p:'MILO',m:'M5',v:1066090,vc:55449,n:400},{c:'202505',p:'MILO',m:'M6',v:931571,vc:50958,n:400},
-// 202506
-{c:'202506',p:'HILO',m:'M-1',v:1787316,vc:75775,n:489},{c:'202506',p:'HILO',m:'M0',v:2199336,vc:76100,n:489},{c:'202506',p:'HILO',m:'M1',v:2280297,vc:58084,n:489},{c:'202506',p:'HILO',m:'M2',v:2083980,vc:51543,n:489},{c:'202506',p:'HILO',m:'M3',v:1792082,vc:69078,n:489},{c:'202506',p:'HILO',m:'M4',v:1986184,vc:84177,n:489},{c:'202506',p:'HILO',m:'M5',v:1793472,vc:76471,n:489},{c:'202506',p:'HILO',m:'M6',v:2397482,vc:107821,n:489},
-{c:'202506',p:'LOLO',m:'M-1',v:110906,vc:4680,n:443},{c:'202506',p:'LOLO',m:'M0',v:667687,vc:24302,n:443},{c:'202506',p:'LOLO',m:'M1',v:830313,vc:25619,n:443},{c:'202506',p:'LOLO',m:'M2',v:792144,vc:19307,n:443},{c:'202506',p:'LOLO',m:'M3',v:572446,vc:22327,n:443},{c:'202506',p:'LOLO',m:'M4',v:716191,vc:36259,n:443},{c:'202506',p:'LOLO',m:'M5',v:647167,vc:32586,n:443},{c:'202506',p:'LOLO',m:'M6',v:1071047,vc:48846,n:443},
-{c:'202506',p:'MILO',m:'M-1',v:641090,vc:27477,n:503},{c:'202506',p:'MILO',m:'M0',v:1010244,vc:35367,n:503},{c:'202506',p:'MILO',m:'M1',v:1174471,vc:32375,n:503},{c:'202506',p:'MILO',m:'M2',v:1025033,vc:22958,n:503},{c:'202506',p:'MILO',m:'M3',v:854692,vc:34349,n:503},{c:'202506',p:'MILO',m:'M4',v:1038336,vc:46559,n:503},{c:'202506',p:'MILO',m:'M5',v:979976,vc:44063,n:503},{c:'202506',p:'MILO',m:'M6',v:1339714,vc:58654,n:503},
-// 202507
-{c:'202507',p:'HILO',m:'M-1',v:1957111,vc:88726,n:444},{c:'202507',p:'HILO',m:'M0',v:2575103,vc:102351,n:444},{c:'202507',p:'HILO',m:'M1',v:2909165,vc:50966,n:444},{c:'202507',p:'HILO',m:'M2',v:2758894,vc:66182,n:444},{c:'202507',p:'HILO',m:'M3',v:2510507,vc:131745,n:444},{c:'202507',p:'HILO',m:'M4',v:1951268,vc:98983,n:444},{c:'202507',p:'HILO',m:'M5',v:2517681,vc:130749,n:444},{c:'202507',p:'HILO',m:'M6',v:2142743,vc:99524,n:444},
-{c:'202507',p:'HILO TOP',m:'M-1',v:12256441,vc:445526,n:12},{c:'202507',p:'HILO TOP',m:'M0',v:16494021,vc:557876,n:12},{c:'202507',p:'HILO TOP',m:'M1',v:14939070,vc:74838,n:12},{c:'202507',p:'HILO TOP',m:'M2',v:11549873,vc:160791,n:12},{c:'202507',p:'HILO TOP',m:'M3',v:11746277,vc:564913,n:12},{c:'202507',p:'HILO TOP',m:'M4',v:10849283,vc:390385,n:12},{c:'202507',p:'HILO TOP',m:'M5',v:16242781,vc:753591,n:12},{c:'202507',p:'HILO TOP',m:'M6',v:14843732,vc:671081,n:12},
-{c:'202507',p:'LOLO',m:'M-1',v:140042,vc:6162,n:496},{c:'202507',p:'LOLO',m:'M0',v:725733,vc:27134,n:496},{c:'202507',p:'LOLO',m:'M1',v:878736,vc:15999,n:496},{c:'202507',p:'LOLO',m:'M2',v:689274,vc:20108,n:496},{c:'202507',p:'LOLO',m:'M3',v:610952,vc:34066,n:496},{c:'202507',p:'LOLO',m:'M4',v:591897,vc:31934,n:496},{c:'202507',p:'LOLO',m:'M5',v:832650,vc:44266,n:496},{c:'202507',p:'LOLO',m:'M6',v:702836,vc:32640,n:496},
-{c:'202507',p:'MILO',m:'M-1',v:693331,vc:30888,n:576},{c:'202507',p:'MILO',m:'M0',v:1103841,vc:44040,n:576},{c:'202507',p:'MILO',m:'M1',v:1170501,vc:26962,n:576},{c:'202507',p:'MILO',m:'M2',v:1098326,vc:29827,n:576},{c:'202507',p:'MILO',m:'M3',v:1052466,vc:55762,n:576},{c:'202507',p:'MILO',m:'M4',v:949603,vc:49164,n:576},{c:'202507',p:'MILO',m:'M5',v:1362952,vc:68854,n:576},{c:'202507',p:'MILO',m:'M6',v:1043289,vc:49318,n:576},
-// 202508
-{c:'202508',p:'HILO',m:'M-1',v:1810464,vc:80921,n:235},{c:'202508',p:'HILO',m:'M0',v:2564105,vc:67309,n:235},{c:'202508',p:'HILO',m:'M1',v:2887084,vc:56434,n:235},{c:'202508',p:'HILO',m:'M2',v:3177278,vc:67737,n:235},{c:'202508',p:'HILO',m:'M3',v:2486057,vc:82780,n:235},{c:'202508',p:'HILO',m:'M4',v:3119797,vc:164157,n:235},{c:'202508',p:'HILO',m:'M5',v:2387579,vc:111082,n:235},{c:'202508',p:'HILO',m:'M6',v:2119174,vc:99513,n:235},
-{c:'202508',p:'HILO TOP',m:'M-1',v:12853315,vc:429279,n:53},{c:'202508',p:'HILO TOP',m:'M0',v:14440144,vc:274506,n:53},{c:'202508',p:'HILO TOP',m:'M1',v:11852416,vc:210513,n:53},{c:'202508',p:'HILO TOP',m:'M2',v:12722273,vc:272439,n:53},{c:'202508',p:'HILO TOP',m:'M3',v:11086473,vc:429462,n:53},{c:'202508',p:'HILO TOP',m:'M4',v:14027860,vc:534693,n:53},{c:'202508',p:'HILO TOP',m:'M5',v:11373831,vc:386296,n:53},{c:'202508',p:'HILO TOP',m:'M6',v:9177396,vc:370699,n:53},
-{c:'202508',p:'LOLO',m:'M-1',v:147178,vc:6615,n:474},{c:'202508',p:'LOLO',m:'M0',v:667926,vc:16547,n:474},{c:'202508',p:'LOLO',m:'M1',v:773034,vc:18955,n:474},{c:'202508',p:'LOLO',m:'M2',v:994622,vc:25972,n:474},{c:'202508',p:'LOLO',m:'M3',v:834709,vc:53943,n:474},{c:'202508',p:'LOLO',m:'M4',v:860217,vc:45904,n:474},{c:'202508',p:'LOLO',m:'M5',v:838950,vc:34400,n:474},{c:'202508',p:'LOLO',m:'M6',v:667572,vc:25916,n:474},
-{c:'202508',p:'MILO',m:'M-1',v:743115,vc:33567,n:412},{c:'202508',p:'MILO',m:'M0',v:1100665,vc:30929,n:412},{c:'202508',p:'MILO',m:'M1',v:1117116,vc:24807,n:412},{c:'202508',p:'MILO',m:'M2',v:1245314,vc:28657,n:412},{c:'202508',p:'MILO',m:'M3',v:1022909,vc:54838,n:412},{c:'202508',p:'MILO',m:'M4',v:1359236,vc:75939,n:412},{c:'202508',p:'MILO',m:'M5',v:1054178,vc:52017,n:412},{c:'202508',p:'MILO',m:'M6',v:921859,vc:44081,n:412},
-// 202509
-{c:'202509',p:'CHINOS',m:'M-1',v:492590,vc:6055,n:26},{c:'202509',p:'CHINOS',m:'M0',v:3915844,vc:12361,n:26},{c:'202509',p:'CHINOS',m:'M1',v:7795337,vc:56973,n:26},{c:'202509',p:'CHINOS',m:'M2',v:9303022,vc:54012,n:26},{c:'202509',p:'CHINOS',m:'M3',v:11277106,vc:215998,n:26},{c:'202509',p:'CHINOS',m:'M4',v:7216734,vc:127730,n:26},{c:'202509',p:'CHINOS',m:'M5',v:6839659,vc:110477,n:26},{c:'202509',p:'CHINOS',m:'M6',v:5248348,vc:111019,n:26},
-{c:'202509',p:'HILO',m:'M-1',v:2209251,vc:89196,n:232},{c:'202509',p:'HILO',m:'M0',v:2751087,vc:91230,n:232},{c:'202509',p:'HILO',m:'M1',v:3600831,vc:96393,n:232},{c:'202509',p:'HILO',m:'M2',v:3064932,vc:83814,n:232},{c:'202509',p:'HILO',m:'M3',v:3596332,vc:198463,n:232},{c:'202509',p:'HILO',m:'M4',v:2559394,vc:123682,n:232},{c:'202509',p:'HILO',m:'M5',v:1957400,vc:94242,n:232},{c:'202509',p:'HILO',m:'M6',v:1843025,vc:121370,n:232},
-{c:'202509',p:'HILO TOP',m:'M-1',v:8219191,vc:237760,n:201},{c:'202509',p:'HILO TOP',m:'M0',v:8603293,vc:202263,n:201},{c:'202509',p:'HILO TOP',m:'M1',v:9942639,vc:164214,n:201},{c:'202509',p:'HILO TOP',m:'M2',v:9513864,vc:178470,n:201},{c:'202509',p:'HILO TOP',m:'M3',v:13024493,vc:257918,n:201},{c:'202509',p:'HILO TOP',m:'M4',v:9907714,vc:156825,n:201},{c:'202509',p:'HILO TOP',m:'M5',v:7996916,vc:328532,n:201},{c:'202509',p:'HILO TOP',m:'M6',v:6597207,vc:384429,n:201},
-{c:'202509',p:'LOLO',m:'M-1',v:258320,vc:8106,n:902},{c:'202509',p:'LOLO',m:'M0',v:600757,vc:12604,n:902},{c:'202509',p:'LOLO',m:'M1',v:795221,vc:15512,n:902},{c:'202509',p:'LOLO',m:'M2',v:780977,vc:9429,n:902},{c:'202509',p:'LOLO',m:'M3',v:993316,vc:44209,n:902},{c:'202509',p:'LOLO',m:'M4',v:849213,vc:28389,n:902},{c:'202509',p:'LOLO',m:'M5',v:751515,vc:25154,n:902},{c:'202509',p:'LOLO',m:'M6',v:555596,vc:26285,n:902},
-{c:'202509',p:'MILO',m:'M-1',v:688274,vc:28613,n:352},{c:'202509',p:'MILO',m:'M0',v:1107740,vc:38749,n:352},{c:'202509',p:'MILO',m:'M1',v:1377698,vc:33009,n:352},{c:'202509',p:'MILO',m:'M2',v:1103248,vc:20528,n:352},{c:'202509',p:'MILO',m:'M3',v:1556164,vc:79506,n:352},{c:'202509',p:'MILO',m:'M4',v:1193292,vc:56133,n:352},{c:'202509',p:'MILO',m:'M5',v:1051260,vc:53375,n:352},{c:'202509',p:'MILO',m:'M6',v:784523,vc:54370,n:352},
-// 202510
-{c:'202510',p:'CHINO',m:'M-1',v:461421,vc:7132,n:11},{c:'202510',p:'CHINO',m:'M0',v:7388226,vc:79749,n:11},{c:'202510',p:'CHINO',m:'M1',v:14105752,vc:128835,n:11},{c:'202510',p:'CHINO',m:'M2',v:27281416,vc:313145,n:11},{c:'202510',p:'CHINO',m:'M3',v:15927359,vc:453318,n:11},{c:'202510',p:'CHINO',m:'M4',v:14467517,vc:399622,n:11},{c:'202510',p:'CHINO',m:'M5',v:11557518,vc:388842,n:11},
-{c:'202510',p:'HILO',m:'M-1',v:1597122,vc:61393,n:120},{c:'202510',p:'HILO',m:'M0',v:2833400,vc:84034,n:120},{c:'202510',p:'HILO',m:'M1',v:3126509,vc:71023,n:120},{c:'202510',p:'HILO',m:'M2',v:4415523,vc:113186,n:120},{c:'202510',p:'HILO',m:'M3',v:3334026,vc:131900,n:120},{c:'202510',p:'HILO',m:'M4',v:2869444,vc:117585,n:120},{c:'202510',p:'HILO',m:'M5',v:2600624,vc:135983,n:120},
-{c:'202510',p:'LOLO',m:'M-1',v:138140,vc:4548,n:464},{c:'202510',p:'LOLO',m:'M0',v:729934,vc:21963,n:464},{c:'202510',p:'LOLO',m:'M1',v:1179932,vc:16232,n:464},{c:'202510',p:'LOLO',m:'M2',v:1535200,vc:21762,n:464},{c:'202510',p:'LOLO',m:'M3',v:1365381,vc:50865,n:464},{c:'202510',p:'LOLO',m:'M4',v:754632,vc:29611,n:464},{c:'202510',p:'LOLO',m:'M5',v:446481,vc:25298,n:464},
-{c:'202510',p:'MILO',m:'M-1',v:550087,vc:21651,n:289},{c:'202510',p:'MILO',m:'M0',v:1144631,vc:36394,n:289},{c:'202510',p:'MILO',m:'M1',v:1237629,vc:34054,n:289},{c:'202510',p:'MILO',m:'M2',v:1914281,vc:54386,n:289},{c:'202510',p:'MILO',m:'M3',v:1262293,vc:53334,n:289},{c:'202510',p:'MILO',m:'M4',v:1189328,vc:46679,n:289},{c:'202510',p:'MILO',m:'M5',v:1232619,vc:84548,n:289},
-// 202511
-{c:'202511',p:'CHINO',m:'M-1',v:1856741,vc:35495,n:8},{c:'202511',p:'CHINO',m:'M0',v:10130691,vc:105650,n:8},{c:'202511',p:'CHINO',m:'M1',v:18927475,vc:128307,n:8},{c:'202511',p:'CHINO',m:'M2',v:14276347,vc:86413,n:8},{c:'202511',p:'CHINO',m:'M3',v:13849931,vc:320772,n:8},{c:'202511',p:'CHINO',m:'M4',v:13607508,vc:385388,n:8},
-{c:'202511',p:'HILO',m:'M-1',v:2273813,vc:85976,n:141},{c:'202511',p:'HILO',m:'M0',v:3122088,vc:101355,n:141},{c:'202511',p:'HILO',m:'M1',v:5184016,vc:133570,n:141},{c:'202511',p:'HILO',m:'M2',v:4238889,vc:81838,n:141},{c:'202511',p:'HILO',m:'M3',v:3642937,vc:147962,n:141},{c:'202511',p:'HILO',m:'M4',v:3402368,vc:191651,n:141},
-{c:'202511',p:'HILO TOP',m:'M-1',v:4565580,vc:220910,n:1},{c:'202511',p:'HILO TOP',m:'M0',v:3415046,vc:97797,n:1},{c:'202511',p:'HILO TOP',m:'M1',v:2991600,vc:15382,n:1},{c:'202511',p:'HILO TOP',m:'M2',v:4955530,vc:40620,n:1},{c:'202511',p:'HILO TOP',m:'M3',v:1997000,vc:120133,n:1},{c:'202511',p:'HILO TOP',m:'M4',v:2273500,vc:48940,n:1},
-{c:'202511',p:'LOLO',m:'M-1',v:122563,vc:5075,n:551},{c:'202511',p:'LOLO',m:'M0',v:601611,vc:25443,n:551},{c:'202511',p:'LOLO',m:'M1',v:1199591,vc:41662,n:551},{c:'202511',p:'LOLO',m:'M2',v:1042384,vc:26624,n:551},{c:'202511',p:'LOLO',m:'M3',v:772834,vc:38594,n:551},{c:'202511',p:'LOLO',m:'M4',v:673032,vc:48189,n:551},
-{c:'202511',p:'MILO',m:'M-1',v:833741,vc:38529,n:337},{c:'202511',p:'MILO',m:'M0',v:1240361,vc:46179,n:337},{c:'202511',p:'MILO',m:'M1',v:1994866,vc:56221,n:337},{c:'202511',p:'MILO',m:'M2',v:1512562,vc:34916,n:337},{c:'202511',p:'MILO',m:'M3',v:1216916,vc:54992,n:337},{c:'202511',p:'MILO',m:'M4',v:1122449,vc:71980,n:337},
-// 202512
-{c:'202512',p:'HILO',m:'M-1',v:1595163,vc:64764,n:193},{c:'202512',p:'HILO',m:'M0',v:4279379,vc:107073,n:193},{c:'202512',p:'HILO',m:'M1',v:3977974,vc:75644,n:193},{c:'202512',p:'HILO',m:'M2',v:3523396,vc:67129,n:193},{c:'202512',p:'HILO',m:'M3',v:2791156,vc:164759,n:193},
-{c:'202512',p:'HILO TOP',m:'M-1',v:1692616,vc:44396,n:65},{c:'202512',p:'HILO TOP',m:'M0',v:4097838,vc:74289,n:65},{c:'202512',p:'HILO TOP',m:'M1',v:3344695,vc:34856,n:65},{c:'202512',p:'HILO TOP',m:'M2',v:3503353,vc:40923,n:65},{c:'202512',p:'HILO TOP',m:'M3',v:3108874,vc:63724,n:65},
-{c:'202512',p:'LOLO',m:'M-1',v:784169,vc:20605,n:314},{c:'202512',p:'LOLO',m:'M0',v:1449875,vc:21468,n:314},{c:'202512',p:'LOLO',m:'M1',v:1425250,vc:18682,n:314},{c:'202512',p:'LOLO',m:'M2',v:1241346,vc:19255,n:314},{c:'202512',p:'LOLO',m:'M3',v:1107723,vc:38068,n:314},
-{c:'202512',p:'LOLO DTO',m:'M-1',v:84083,vc:1683,n:612},{c:'202512',p:'LOLO DTO',m:'M0',v:448478,vc:12833,n:612},{c:'202512',p:'LOLO DTO',m:'M1',v:563129,vc:8690,n:612},{c:'202512',p:'LOLO DTO',m:'M2',v:485047,vc:8023,n:612},{c:'202512',p:'LOLO DTO',m:'M3',v:458016,vc:20774,n:612},
-{c:'202512',p:'MILO',m:'M-1',v:301233,vc:7925,n:308},{c:'202512',p:'MILO',m:'M0',v:976454,vc:19870,n:308},{c:'202512',p:'MILO',m:'M1',v:1153898,vc:12685,n:308},{c:'202512',p:'MILO',m:'M2',v:873081,vc:11933,n:308},{c:'202512',p:'MILO',m:'M3',v:637164,vc:19154,n:308},
-{c:'202512',p:'MILO DTO',m:'M-1',v:196678,vc:5306,n:207},{c:'202512',p:'MILO DTO',m:'M0',v:761076,vc:18058,n:207},{c:'202512',p:'MILO DTO',m:'M1',v:930624,vc:14283,n:207},{c:'202512',p:'MILO DTO',m:'M2',v:816036,vc:12133,n:207},{c:'202512',p:'MILO DTO',m:'M3',v:796184,vc:31516,n:207},
-// 202601
-{c:'202601',p:'HILO',m:'M-1',v:1685812,vc:59091,n:143},{c:'202601',p:'HILO',m:'M0',v:2506259,vc:57914,n:143},{c:'202601',p:'HILO',m:'M1',v:2387957,vc:46300,n:143},{c:'202601',p:'HILO',m:'M2',v:2151735,vc:83043,n:143},
-{c:'202601',p:'HILO TOP',m:'M-1',v:3259289,vc:102909,n:27},{c:'202601',p:'HILO TOP',m:'M0',v:4257151,vc:103214,n:27},{c:'202601',p:'HILO TOP',m:'M1',v:4041077,vc:55500,n:27},{c:'202601',p:'HILO TOP',m:'M2',v:3162642,vc:113816,n:27},
-{c:'202601',p:'LOLO',m:'M-1',v:364933,vc:11622,n:165},{c:'202601',p:'LOLO',m:'M0',v:704298,vc:10812,n:165},{c:'202601',p:'LOLO',m:'M1',v:730666,vc:471,n:165},{c:'202601',p:'LOLO',m:'M2',v:377006,vc:10561,n:165},
-{c:'202601',p:'LOLO DTO',m:'M-1',v:180807,vc:8361,n:491},{c:'202601',p:'LOLO DTO',m:'M0',v:256334,vc:7320,n:491},{c:'202601',p:'LOLO DTO',m:'M1',v:232981,vc:5640,n:491},{c:'202601',p:'LOLO DTO',m:'M2',v:235280,vc:9389,n:491},
-{c:'202601',p:'MILO',m:'M-1',v:641958,vc:23824,n:202},{c:'202601',p:'MILO',m:'M0',v:922279,vc:24368,n:202},{c:'202601',p:'MILO',m:'M1',v:837124,vc:20466,n:202},{c:'202601',p:'MILO',m:'M2',v:706028,vc:42851,n:202},
-{c:'202601',p:'MILO DTO',m:'M-1',v:347383,vc:10820,n:133},{c:'202601',p:'MILO DTO',m:'M0',v:677530,vc:20990,n:133},{c:'202601',p:'MILO DTO',m:'M1',v:605077,vc:11190,n:133},{c:'202601',p:'MILO DTO',m:'M2',v:500229,vc:19243,n:133},
-// 202602
-{c:'202602',p:'HILO',m:'M-1',v:795672,vc:29635,n:86},{c:'202602',p:'HILO',m:'M0',v:1195855,vc:25550,n:86},{c:'202602',p:'HILO',m:'M1',v:1262154,vc:46412,n:86},
-{c:'202602',p:'HILO TOP',m:'M-1',v:2631583,vc:86755,n:27},{c:'202602',p:'HILO TOP',m:'M0',v:2221927,vc:61858,n:27},{c:'202602',p:'HILO TOP',m:'M1',v:1892849,vc:75289,n:27},
-{c:'202602',p:'LOLO',m:'M-1',v:153569,vc:7604,n:127},{c:'202602',p:'LOLO',m:'M0',v:461944,vc:12509,n:127},{c:'202602',p:'LOLO',m:'M1',v:725550,vc:34811,n:127},
-{c:'202602',p:'LOLO DTO',m:'M-1',v:351580,vc:12989,n:721},{c:'202602',p:'LOLO DTO',m:'M0',v:572591,vc:11677,n:721},{c:'202602',p:'LOLO DTO',m:'M1',v:577072,vc:17095,n:721},
-{c:'202602',p:'MILO',m:'M-1',v:485110,vc:14218,n:139},{c:'202602',p:'MILO',m:'M0',v:740539,vc:15976,n:139},{c:'202602',p:'MILO',m:'M1',v:687000,vc:15636,n:139},
-{c:'202602',p:'MILO DTO',m:'M-1',v:325253,vc:13148,n:104},{c:'202602',p:'MILO DTO',m:'M0',v:603961,vc:16101,n:104},{c:'202602',p:'MILO DTO',m:'M1',v:550620,vc:14499,n:104},
-// 202603
-{c:'202603',p:'HILO',m:'M-1',v:1059640,vc:28478,n:72},{c:'202603',p:'HILO',m:'M0',v:1652869,vc:64772,n:72},
-{c:'202603',p:'HILO TOP',m:'M-1',v:1295554,vc:39629,n:25},{c:'202603',p:'HILO TOP',m:'M0',v:2186700,vc:100453,n:25},
-{c:'202603',p:'LOLO',m:'M-1',v:237328,vc:8823,n:133},{c:'202603',p:'LOLO',m:'M0',v:735607,vc:51319,n:133},
-{c:'202603',p:'LOLO DTO',m:'M-1',v:344669,vc:16114,n:733},{c:'202603',p:'LOLO DTO',m:'M0',v:591094,vc:29479,n:733},
-{c:'202603',p:'MILO',m:'M-1',v:358131,vc:11835,n:134},{c:'202603',p:'MILO',m:'M0',v:558081,vc:32209,n:134},
-{c:'202603',p:'MILO DTO',m:'M-1',v:228637,vc:9597,n:90},{c:'202603',p:'MILO DTO',m:'M0',v:439796,vc:25513,n:90},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
+{c:'',p:'',m:'',v:null,vc:null,n:},
 ];
 
 const COHORTS = [
-  {mes:'202510', sellers:884,  pot:86,  pctPot:0.097, tpvM0:671,  tpvM1:1016, vcM0:15.6, vcM1:11.1},
-  {mes:'202511', sellers:1038, pot:87,  pctPot:0.084, tpvM0:586,  tpvM1:1530, vcM0:16.4, vcM1:33.4},
-  {mes:'202512', sellers:1699, pot:166, pctPot:0.098, tpvM0:1431, tpvM1:1476, vcM0:23.5, vcM1:8.5},
-  {mes:'202601', sellers:1161, pot:51,  pctPot:0.044, tpvM0:338,  tpvM1:281,  vcM0:0.7,  vcM1:-6.9},
-  {mes:'202602', sellers:1204, pot:52,  pctPot:0.043, tpvM0:286,  tpvM1:307,  vcM0:-0.8, vcM1:7.9},
-  {mes:'202603', sellers:1187, pot:34,  pctPot:0.029, tpvM0:358,  tpvM1:null, vcM0:23.7, vcM1:null},
 ];
 
 // ---- PAGE 1 CHARTS ----
@@ -452,14 +871,14 @@ new Chart(document.getElementById('chartActivosCancelados'), {
 })();
 
 function fmtBig(n) {
-  if (n === null) return '—';
+  if (n === null) return 'â€”';
   const abs = Math.abs(n);
   if (abs >= 1e9) return (n/1e9).toFixed(1)+'B';
   return (n/1e6).toFixed(0)+'M';
 }
 
 function computeCurva(cohortFilter, planFilter) {
-  // Build groups: {cohort|plan → {mes → {v, n}}}
+  // Build groups: {cohort|plan â†’ {mes â†’ {v, n}}}
   const groups = {};
   COHORT_DATA.forEach(d => {
     if (cohortFilter !== 'all' && d.c !== cohortFilter) return;
@@ -541,7 +960,7 @@ const curvaChart = new Chart(document.getElementById('chartCurva'), {
 });
 
 document.getElementById('curvaBaseLabel').textContent =
-  `TPV base (M-1): $${fmtBig(curvaInit.base)} ARS total · ${curvaInit.groups} combinaciones cohort×plan`;
+  `TPV base (M-1): $${fmtBig(curvaInit.base)} ARS total Â· ${curvaInit.groups} combinaciones cohortÃ—plan`;
 
 function updateCurva() {
   const cf = document.getElementById('selCohort').value;
@@ -552,7 +971,7 @@ function updateCurva() {
   ds.backgroundColor = result.values.map((v,i) => i===0 ? '#e0e0e0' : (v !== null && v < 0 ? '#ef9a9a' : '#FFD200'));
   curvaChart.update();
   document.getElementById('curvaBaseLabel').textContent =
-    `TPV base (M-1): $${fmtBig(result.base)} ARS total · ${result.groups} combinaciones cohort×plan`;
+    `TPV base (M-1): $${fmtBig(result.base)} ARS total Â· ${result.groups} combinaciones cohortÃ—plan`;
   const vcResult = computeVCCurva(cf, pf);
   const vcDs = vcChart.data.datasets[0];
   vcDs.data = vcResult.values;
@@ -738,20 +1157,23 @@ COHORTS.forEach(c => {
     <td>${fmt(c.pot)}</td>
     <td><span class="badge ${badge}">${pct}%</span></td>
     <td>${fmtM(c.tpvM0*1e6)}</td>
-    <td>${c.tpvM1 ? fmtM(c.tpvM1*1e6) : '—'}</td>
+    <td>${c.tpvM1 ? fmtM(c.tpvM1*1e6) : 'â€”'}</td>
     <td>${c.vcM0 >= 0 ? '+' : ''}${c.vcM0.toFixed(1)}M</td>
-    <td>${c.vcM1 !== null ? (c.vcM1 >= 0 ? '+' : '')+c.vcM1.toFixed(1)+'M' : '—'}</td>
+    <td>${c.vcM1 !== null ? (c.vcM1 >= 0 ? '+' : '')+c.vcM1.toFixed(1)+'M' : 'â€”'}</td>
   </tr>`;
 });
 
 // ---- PAGE 3: CANALES ----
 const CANALES_DATA = [
-  {plan:'LOLO DTO', aud:134689, rPush:57356, oPush:1272, rModal:109356, tModal:11967, rWspp:74866, oWspp:54790, rTotal:120981, oTotal:61826},
-  {plan:'LOLO',     aud:33835,  rPush:17471, oPush:663,  rModal:27790,  tModal:2743,  rWspp:18658, oWspp:13499, rTotal:30700,  oTotal:15274},
-  {plan:'MILO DTO', aud:34543,  rPush:17535, oPush:773,  rModal:28283,  tModal:2992,  rWspp:19098, oWspp:13853, rTotal:31266,  oTotal:15859},
-  {plan:'MILO',     aud:64582,  rPush:38742, oPush:1913, rModal:53153,  tModal:6521,  rWspp:35319, oWspp:25452, rTotal:58718,  oTotal:29968},
-  {plan:'HILO',     aud:75235,  rPush:44959, oPush:2238, rModal:61244,  tModal:7546,  rWspp:40672, oWspp:29302, rTotal:67796,  oTotal:34522},
-  {plan:'HILO TOP', aud:63063,  rPush:36701, oPush:1861, rModal:51709,  tModal:5191,  rWspp:34646, oWspp:24847, rTotal:57480,  oTotal:28695},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
+  {plan:'', aud:, rPush:, oPush:, rModal:, tModal:, rWspp:, oWspp:, rTotal:, oTotal:},
 ];
 
 new Chart(document.getElementById('chartCanales'), {
@@ -815,3 +1237,4 @@ function showPage(i) {
 </script>
 </body>
 </html>
+
